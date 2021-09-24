@@ -10,7 +10,9 @@ class driverbebas {
     //m2.displayMatrix();
     //System.out.println(m1.isRowsZero());
     //System.out.println(m1.isColsZero());
-    m2 = m1.convertToSegitigaAtas();
-    m2.displayMatrix();
+    //System.out.println(m1.determinanOBE());
+    System.out.println(m1.determinanKofaktor());
+    //System.out.println("Yang asli: ");
+    //m1.displayMatrix();
   }
 }
