@@ -1,7 +1,10 @@
+import java.util.Arrays;
+
 class driverbebas {
     public static void main(String[] args) {
         Matrix m1 = new Matrix(3, 3);
         Matrix m2 = new Matrix(3, 3);
+        double solusi[];
         //m.createMatrix(3, 3);
         //m.displayMatrix();
         m1.readMatrix(3, 3);
@@ -14,5 +17,11 @@ class driverbebas {
         m2.displayMatrix();
         System.out.println("m1 adalah matriks eselon baris : "+m1.cekEselon());
         System.out.println("m2 adalah matriks eselon baris : "+m2.cekEselon());
+        Matrix matEselon = new Matrix(3,4);
+        Matrix mat = new Matrix(3,4);
+        mat.readMatrix(3,4);
+        matEselon = mat.convertToEselon();
+        solusi=matEselon.substitusiBalik();
+        System.out.println(Arrays.toString(solusi));
     }
 }

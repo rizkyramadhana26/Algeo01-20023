@@ -215,4 +215,72 @@ public class Matrix {
         }
         return eselon;
     }
+    public Matrix convertToEselon() {
+        //kamus
+        Matrix mOutput = new Matrix(this.rows, this.cols);
+        int singular_flag;
+        //algoritma
+        mOutput = this.copyMatrix();
+        singular_flag = mOutput.forwardElim();
+        if (singular_flag != -1){
+            System.out.println("Matrix singualr");
+            if (mOutput.matrix[singular_flag][this.cols-1] != 0){
+                System.out.print("Tidak memiliki solusi");
+            } else {
+                System.out.print("Memiliki tak hingga solusi");
+            }
+            return mOutput ;
+        }
+        return mOutput;
+    }
+
+    public int forwardElim(){
+        //menerima sebuah matrix augmented lalu mengonversinya menjadi matriks eselon baris, mengembalikan sebuah nilai integer untuk menandai hasil operasi tersebut untuk menandai
+        //matrix tersebut singular atau tidak
+        //prekondisi : matrix memiliki solusi tunggal
+        //kamus
+        int k, i_max, v_max, i, j;
+        double f;
+        //algoritma
+        for (k = 0; k < this.cols-1; k++){
+            i_max = k;
+            v_max = (int)this.matrix[i_max][k];
+            for (i = k + 1; i < this.cols-1; i++)
+                if (Math.abs(this.matrix[i][k]) > v_max){
+                    v_max = (int)this.matrix[i][k];
+                    i_max = i;
+                }
+            if (this.matrix[k][i_max] == 0){
+                return k; // Matrix singular
+            }
+            if (i_max != k){
+                swap_row(k, i_max);
+            }
+            for (i = k + 1; i < this.cols-1; i++){
+                f = this.matrix[i][k] / this.matrix[k][k];
+                for (j = k + 1; j <= this.cols-1; j++)
+                    this.matrix[i][j] -= this.matrix[k][j] * f;
+                this.matrix[i][k] = 0;
+            }
+        }
+        return -1;
+    }
+
+    // Untuk substitusi balik ketika sudah didapat matrix eselon baris
+    public double[] substitusiBalik(){
+        //Menerima sebuah matriks eselon baris dan mengembalikan solusi-solusi dalam bentuk array
+        //kamus
+        int i,j;
+        double solusi[] = new double[this.cols-1]; // Array untuk menyimpan solusi
+        //algoritma
+        for (i = this.cols - 2; i >= 0; i--){
+            solusi[i] = this.matrix[i][this.cols-1];
+            for (j = i + 1; j < this.cols-1; j++){
+                solusi[i] -= this.matrix[i][j] * solusi[j];
+            }
+            solusi[i] = solusi[i] / this.matrix[i][i];
+        }
+
+    return solusi;
+    }
 }
