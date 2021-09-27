@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 public class Main {
-    public static  void pembuka(){
+    public static void pembuka() {
         System.out.println("------------------------------------------------------");
         System.out.println("Selamat datang di program matriks kelompok 21 BONEK");
         System.out.println("------------------------------------------------------\n");
@@ -19,7 +19,7 @@ public class Main {
         System.out.println("9. CLOSE PROGRAM");
     }
 
-    public static void penutup(){
+    public static void penutup() {
         System.out.println("-------------------------------------------");
         System.out.println("Terimakasih sudah menggunakan program kami");
         System.out.println("-------------------------------------------");
