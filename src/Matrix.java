@@ -77,6 +77,12 @@ public class Matrix {
                 mOutput.matrix[i][j] = this.matrix[i][j];
             }
         }
+        //inisialisasi elemen baru dengan 0
+        for (i = this.rows; i < mOutput.rows; i++) {
+            for (j = this.cols; j < mOutput.cols; j++) {
+                mOutput.matrix[i][j] = 0;
+            }
+        }
         return mOutput;
     }
 
@@ -186,6 +192,9 @@ public class Matrix {
             System.out.println("Sudah merupakan segitiga atas");
         } else {
             mOutput.OBEsegitigaAtas();
+        }
+        return mOutput;
+    }
     public double determinanOBE() { //PREKONDISI : MATRIKSNYA SUDAH PASTI PERSEGI. PROSES PENANGANAN DI MAIN.JAVA
         Matrix mOutput = new Matrix(this.rows,this.cols);
         double determinan = 1 ;
@@ -288,6 +297,7 @@ public class Matrix {
             }
         }
         return hasil;
+    }
     public boolean cekEselon() {
         //Mengecek apakah matrix merupakan matriks eselon baris
         int i = 0, j = 0, bukan0, bukan0sebelumnya;
