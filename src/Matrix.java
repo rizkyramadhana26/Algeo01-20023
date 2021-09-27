@@ -38,7 +38,7 @@ public class Matrix {
         int i, j;
         for (i = 0; i < this.rows; i++) {
             for (j = 0; j < this.cols; j++) {
-                System.out.print(this.matrix[i][j] + " ");
+                System.out.printf("%.2f ", this.matrix[i][j]);
             }
             System.out.println();
         }
@@ -215,15 +215,15 @@ public class Matrix {
         }
         return eselon;
     }
-    public Matrix convertToEselon() {
+    public Matrix convertToEselon(boolean tereduksi) {
         //kamus
         Matrix mOutput = new Matrix(this.rows, this.cols);
         int singular_flag;
         //algoritma
         mOutput = this.copyMatrix();
-        singular_flag = mOutput.forwardElim();
+        singular_flag = mOutput.forwardElim(tereduksi);
         if (singular_flag != -1){
-            System.out.println("Matrix singualr");
+            System.out.println("Matrix singular");
             if (mOutput.matrix[singular_flag][this.cols-1] != 0){
                 System.out.print("Tidak memiliki solusi");
             } else {
@@ -234,14 +234,17 @@ public class Matrix {
         return mOutput;
     }
 
-    public int forwardElim(){
+    public int forwardElim(boolean tereduksi){
         //menerima sebuah matrix augmented lalu mengonversinya menjadi matriks eselon baris, mengembalikan sebuah nilai integer untuk menandai hasil operasi tersebut untuk menandai
         //matrix tersebut singular atau tidak
         //prekondisi : matrix memiliki solusi tunggal
         //kamus
-        int k, i_max, v_max, i, j;
-        double f;
+        int k, i_max, v_max, i, j,bukan0;
+        double f,p;
+        boolean found;
         //algoritma
+        System.out.println("Matrix awal");
+        displayMatrix();
         for (k = 0; k < this.cols-1; k++){
             i_max = k;
             v_max = (int)this.matrix[i_max][k];
@@ -255,12 +258,54 @@ public class Matrix {
             }
             if (i_max != k){
                 swap_row(k, i_max);
+                System.out.printf("Tukar baris ke-%d dan baris ke-%d\n", (k+1), (i_max+1));
+                displayMatrix();
             }
             for (i = k + 1; i < this.cols-1; i++){
                 f = this.matrix[i][k] / this.matrix[k][k];
-                for (j = k + 1; j <= this.cols-1; j++)
+                for (j = k + 1; j <= this.cols-1; j++){
                     this.matrix[i][j] -= this.matrix[k][j] * f;
+                }
                 this.matrix[i][k] = 0;
+                System.out.printf("Baris ke-%d dikurangi baris ke-%d dikali %.2f\n", (i+1), (k+1), f);
+                displayMatrix();
+            }
+        }
+        if(tereduksi){
+            for (i = 0; i < this.cols-1; i++){
+                for (j = 0; j < this.cols-1; j++){
+                    if (i != j){
+                        p = this.matrix[j][i] / this.matrix[i][i];
+                        for (k = 0; k <= this.cols-1; k++)                
+                            this.matrix[j][k] = this.matrix[j][k] - (this.matrix[i][k]) * p;
+                            System.out.printf("Baris ke-%d dikurangi baris ke-%d dikali %.2f\n", (j+1), (i+1), p);
+                            displayMatrix();            
+                    }
+                }
+            }
+        }
+        //sampai sini matrix merupakan matrix segitiga
+        for(i=0;i<this.cols-1;i++){
+            //mencari elemen bukan nol pertama di tiap baris
+            bukan0=0;
+            found=false;
+            j=0;
+            while(j<this.cols-1 && !found){
+                if(this.matrix[i][j]==0){
+                    j++;
+                } else {
+                    bukan0=j;
+                    found=true;
+                }
+            }
+            //mengubah elemen bukan nol pertama di tiap baris menjadi leading one
+            if(found){
+                p=this.matrix[i][bukan0];
+                for(k=0;k<this.cols;k++){
+                    this.matrix[i][k]/=p;
+                }
+                System.out.printf("Baris ke-%d dibagi dengan %.2f\n", (i+1), (p));
+                displayMatrix();
             }
         }
         return -1;
