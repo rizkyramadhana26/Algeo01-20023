@@ -55,24 +55,32 @@ public class Main {
         Matrix mUtama = new Matrix(20, 20); // BIAR MAX SIZE NYA 20 DULU
         mUtama.rows = 0; // awowakoka biar input awalnya kosong dulu
         mUtama.cols = 0;
+        Matrix B = new Matrix(20, 20); //KHUSUS SPL METODE 3 DAN 4 YO
+        Matrix temp = new Matrix(20, 20); //INI BUAT SWITCH COLUMN GAE SPL METODE CRAMMER
+        B.cols = 1;
         Scanner sc = new Scanner(System.in);
         System.out.print("Ketik menu yang ingin dipilih: ");
         int pilihan = sc.nextInt();
-        int subPilihan, i;
+        int subPilihan, i,saul,k,size;
+        double elemen;
         System.out.println("-------------------------------------------------------");
         if (pilihan==1){
             subMenuSPL();
+            System.out.print("Masukkan pilihan anda: ");
             Scanner sc1 = new Scanner(System.in);
             int metode = sc1.nextInt();
-            Matrix mAwal = inputMatrix();
-            //jumlah baris harus sama dengan jumlah variabel, jumlah kolom harus sama dengan jumlah variabel ditambah 1
-            mAwal.extendMatrix(mAwal.cols-1>mAwal.rows ? mAwal.cols-1-mAwal.rows : 0,0);
+            //UNTUK METODE 1 DAN 2, jumlah baris harus sama dengan jumlah variabel, jumlah kolom harus sama dengan jumlah variabel ditambah 1 
+            //UNTUK METODE 3 dan 4, INPUT MATRIKS A HARUS PERSEGI
             if(metode==1){
+                Matrix mAwal = inputMatrix();
+                mAwal.extendMatrix(mAwal.cols-1>mAwal.rows ? mAwal.cols-1-mAwal.rows : 0,0);
                 Matrix eselon = mAwal.convertToEselon(false);
                 double solusi[] = eselon.substitusiBalik();
                 System.out.println("Penyelesaian persamaan tersebut adalah"); //asumsi solusi tunggal
                 System.out.println(Arrays.toString(solusi));
             } else if(metode==2){
+                Matrix mAwal = inputMatrix();
+                mAwal.extendMatrix(mAwal.cols-1>mAwal.rows ? mAwal.cols-1-mAwal.rows : 0,0);
                 Matrix eselon = mAwal.convertToEselon(true);
                 double solusi[] = eselon.substitusiBalik();
                 System.out.println("Penyelesaian persamaan tersebut adalah"); //asumsi solusi tunggal
@@ -80,19 +88,69 @@ public class Main {
             } else if(metode==3){
 
             } else if(metode==4){
-
+                System.out.println("Menggunakan metode Cramer, bentuk matriks Ax = B");
+                System.out.print("Silahkan menginput size matriks A: ");
+                Matrix mAwal = new Matrix(20,20);
+                size = sc.nextInt();
+                mAwal.readMatrix(size,size);
+                if (mAwal.rows != mAwal.cols) {
+                    System.out.println("Matriks A tidak persegi, tidak bisa menggunakan metode ini.");
+                    System.out.println("Akan dikembalikan ke menu utama");
+                }
+                else {
+                    mAwal.displayMatrix();
+                    System.out.print("Determinannya adalah: ");
+                    Double detAwal = mAwal.determinanKofaktor();
+                    System.out.println(detAwal);
+                    System.out.println("Silahkan menginput matriks B: ");
+                    B.rows = mAwal.rows;
+                    for (saul=0;saul<B.rows;saul++) {
+                        System.out.print("Masukkan matriks B baris ke-");
+                        System.out.print(saul+1);
+                        System.out.print(": ");
+                        elemen = sc1.nextDouble();
+                        B.matrix[saul][0] = elemen;
+                    }
+                    for (saul=0;saul<mAwal.cols;saul++) {
+                        for (k=0;k<B.rows;k++){// UNTUK NGESWITCHNYA
+                           elemen = mAwal.matrix[k][saul] ;
+                           mAwal.matrix[k][saul] = B.matrix[k][0];
+                           B.matrix[k][0] = elemen;
+                        }
+                        Double detAkhir = mAwal.determinanKofaktor();
+                        System.out.print("Mencari nilai dari X");
+                        System.out.print(saul+1);
+                        System.out.println(" Dengan menukar kolomnya dengan matriks B");
+                        mAwal.displayMatrix();
+                        System.out.print("X");
+                        System.out.print(saul+1);
+                        System.out.print(" Adalah ");
+                        System.out.print(detAkhir);
+                        System.out.print("/");
+                        System.out.print(detAwal);
+                        System.out.print("= ");
+                        System.out.print(detAkhir/detAwal);
+                        System.out.println();
+                        for (k=0;k<B.rows;k++){// UNTUK NGESWITCH KEMBALI BIAR NORMAL
+                            elemen = mAwal.matrix[k][saul] ;
+                            mAwal.matrix[k][saul] = B.matrix[k][0];
+                            B.matrix[k][0] = elemen;
+                        }
+                    }
+                }
             }
+            else {
+                System.out.println("metode tidak sesuai, dikembalikan ke menu utama");
+            }
+            System.out.println("-------------------------------------------------------");
+            menuUtama();
+            pilihmenu();
         } else if (pilihan == 2) {
             System.out.println("Ketik 1 untuk menggunakan metode OBE");
             System.out.println("Ketik 2 untuk menggunakan metode Kofaktor");
-            System.out.println("Ketik 0 untuk batal");
             System.out.print("Masukkan pilihan anda = ");
             subPilihan = sc.nextInt();
-            if (subPilihan == 0) {
-                menuUtama();
-                pilihmenu();
-            }   
-            else if (subPilihan == 1) {
+            if (subPilihan == 1) {
                 mUtama = inputMatrix();
                 if (mUtama.cols != mUtama.rows) {
                     System.out.println("Matriks bukan persegi, tidak bisa dicari determinannya");
@@ -121,11 +179,15 @@ public class Main {
                     System.out.println(mUtama.determinanKofaktor());
                 }
             }
-        System.out.println("-------------------------------------------------------");
-        menuUtama();
-        pilihmenu();
-        } else if (pilihan == 4){
-            int k,j;
+            else {
+                System.out.println("Subpilihan tidak sesuai, dikembalikan ke menu utama");
+            }
+            System.out.println("-------------------------------------------------------");
+            menuUtama();
+            pilihmenu();
+        } 
+        else if (pilihan == 4){
+            int j;
             Matrix eselon;
             double solusi[];
             double y_interpolasi;
@@ -162,6 +224,12 @@ public class Main {
                 }
                 System.out.printf("Hasil interpolasi adalah : %.2f", y_interpolasi);
             }
+            /*else if (subpilihan==2) { BAGIAN AFAN 
+
+            }*/
+        }
+        else if (pilihan == 6){
+        penutup();
         }
     }
 
