@@ -7,7 +7,7 @@ public class Matrix {
     int cols;
     double[][] matrix; 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) { //gatau dah tadi aku gapake main error soalnya waktu compile aowkwokao
         System.out.print("");
     }
 
@@ -20,7 +20,7 @@ public class Matrix {
         }
 
     //METHOD PRIMITIF MATRIKS
-    public void readMatrix(int rows, int cols) { //MEMBACA ELEMEN DARI USER
+    public void readMatrix(int rows, int cols) { //MEMBACA ELEMEN DARI USER, prekondisi rows dan cols lebih kecil dari size yang udah dideclare
         int i, j,elemen;
         Scanner sc = new Scanner(System.in);
         this.rows = rows;
@@ -145,8 +145,9 @@ public class Matrix {
         }
     }
 
-    public void OBEsegitigaAtas(){ //INI SEGITIGA ATASNYA ADA KESALAHAN PRESISI DIKIT e^-16 an mungkin
+    public int OBEsegitigaAtas(){ //ngereturn swapnya ganjil atau genap sama prosedur buat ngubah ke segitiga
         int k,i,j;
+        int tukar = 0;
         for (k = 0; k < this.cols; k++){
             int imaks = k;
             int value = (int)this.matrix[imaks][k];
@@ -156,11 +157,12 @@ public class Matrix {
                     imaks = i;
                 }
             }
-            if (this.matrix[k][imaks] == 0){ //matriksnya singular bos
-                System.out.println("Matriksnya singuar");
+            if (this.matrix[k][imaks] == 0){ 
+                System.out.println("Matriksnya singular");
             }
             if (imaks != k){
-                swap_row(k, imaks);
+                this.swap_row(k, imaks);
+                tukar += 1;
             }
             for (i = k + 1; i < this.rows; i++){
                 double faktor = this.matrix[i][k] / this.matrix[k][k];
@@ -170,24 +172,110 @@ public class Matrix {
                 this.matrix[i][k] = 0;
             } 
         }
+        return tukar;
     }
 
-    public Matrix convertToSegitigaAtas() { //convert matrixnya pake OBE nya ke segitiga bawah, prekondisi : matriks persegi
+    public double determinanOBE() { //PREKONDISI : MATRIKSNYA SUDAH PASTI PERSEGI. PROSES PENANGANAN DI MAIN.JAVA
         Matrix mOutput = new Matrix(this.rows,this.cols);
+        double determinan = 1 ;
         mOutput = this.copyMatrix();
-        int i,j,k;
+        int i,j,k,tukar;
         if (this.rows != this.cols) {
-            System.out.println("Tidak bisa dikonversi ke matriks segitiga.");
+            System.out.println("Tidak bisa dikonversi ke matriks segitiga karena bukan matriks persegi.");
+            return 0;
         }
-        else if (isRowsZero() || isColsZero()) {
-            System.out.println("Terdapat baris atau kolom yang elemennya 0 semua");
-        }
-        else if (isSegitigaAtas()) {
-            System.out.println("Sudah merupakan segitiga atas");
+        else if (this.isColsZero() || this.isRowsZero()) {
+            System.out.println("Terdapat baris atau kolom yang elemennya 0 semua, determinannya 0.");
+            if (!this.isSegitigaAtas()) {
+                System.out.println("Maka tidak perlu diubah ke bentuk segitiga.");
+            }
+            return 0;
         }
         else {
-            mOutput.OBEsegitigaAtas();
+            tukar = mOutput.OBEsegitigaAtas();
+            for (i = 0; i < this.rows; i++) {
+                determinan *= mOutput.matrix[i][i] ;
+            }
+            System.out.println("Bentuk matriksnya setelah operasi segitiga adalah:");
+            mOutput.displayMatrix();
+            if (tukar %2 ==0){
+                return determinan;
+            }
+            else {
+                return determinan*-1;
+            }
         }
-        return mOutput;
+    }
+
+    public Matrix getMinor(int i, int j) { //ngembaliin minornya
+        Matrix mOutput = new Matrix(this.rows-1,this.cols-1);
+        int k,l ;
+        mOutput.rows = this.rows -1;
+        mOutput.cols = this.cols -1;
+        for (k=0;k<this.rows;k++) {
+            for (l=0; l<this.cols; l++) {
+               if (k<i) {
+                   if (l<j) {
+                        mOutput.matrix[k][l] = this.matrix[k][l];
+                   }
+                   else if (l>j) {
+                        mOutput.matrix[k][l-1] = this.matrix[k][l];
+                   }
+               }
+               if (k>i) {
+                   if (l<j) {
+                        mOutput.matrix[k-1][l] = this.matrix[k][l];
+                   }
+                   else if (l>j) {
+                        mOutput.matrix[k-1][l-1] = this.matrix[k][l];
+                    }
+                }
+            }
+        }
+        return mOutput ;
+    }
+
+    public double getKofaktor(int i, int j) {//ngembaliin kofaktornya, udah sesuai tanda
+        Matrix mOutput = new Matrix(this.rows-1,this.cols-1);
+        mOutput = this.getMinor(i,j);
+        if (i + j % 2 ==0) {
+            return mOutput.determinanKofaktor();
+        }
+        else {
+            return mOutput.determinanKofaktor()*-1;
+        }
+    }
+
+    public double determinanKofaktor() { //nyari determinan pakai metode kofaktor
+        int k,tanda = 1;
+        double determinan = 0;
+        Matrix sementara = new Matrix(this.rows-1,this.cols-1);
+        if (this.rows ==1 ) {
+            determinan = this.matrix[0][0] ;
+        }
+        else {
+            for (k=0;k<this.rows;k++) {
+                sementara = this.getMinor(0,k);
+                determinan += tanda*sementara.determinanKofaktor()*this.matrix[0][k];
+                tanda *= -1;
+            }
+        } 
+        return determinan;
+    }
+
+    public Matrix kaliMatrix(Matrix m1, Matrix m2) { //PREKONDISI : kolom m1 = baris m2, kalau engga nanti diatasi di main.java aja
+        Matrix hasil = new Matrix(m1.rows,m2.cols);
+        int i,j,k ;
+        double total ;
+        for (i=0;i<hasil.rows;i++) {
+            for (j=0;j<hasil.cols; j++){
+                total = 0;
+                for (k=0; k < m2.cols; k++) {
+                    total += m1.matrix[i][k]*m2.matrix[k][j];
+                }
+                hasil.matrix[i][j] = total;
+            }
+        }
+        return hasil;
     }
 }
