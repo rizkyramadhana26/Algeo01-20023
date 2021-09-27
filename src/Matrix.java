@@ -153,6 +153,8 @@ public class Matrix {
     public int OBEsegitigaAtas(){ //ngereturn swapnya ganjil atau genap sama prosedur buat ngubah ke segitiga
         int k,i,j;
         int tukar = 0;
+        System.out.println("Matrix awal");
+        displayMatrix();
         for (k = 0; k < this.cols; k++){
             int imaks = k;
             int value = (int) this.matrix[imaks][k];
@@ -168,6 +170,8 @@ public class Matrix {
             if (imaks != k) {
                 swap_row(k, imaks);
                 tukar += 1;
+                System.out.printf("Tukar baris ke-%d dan baris ke-%d\n", (k+1), (imaks+1));
+                displayMatrix();
             }
             for (i = k + 1; i < this.rows; i++) {
                 double faktor = this.matrix[i][k] / this.matrix[k][k];
@@ -175,6 +179,8 @@ public class Matrix {
                     this.matrix[i][j] -= this.matrix[k][j] * faktor;
                 }
                 this.matrix[i][k] = 0;
+                System.out.printf("Baris ke-%d dikurangi baris ke-%d dikali %.2f\n", (i+1), (k+1), faktor);
+                displayMatrix();
             }
         }
         return tukar;
@@ -438,5 +444,21 @@ public class Matrix {
         }
 
     return solusi;
+    }
+
+    public double getRegresiElement(int i, int j){
+        int k ;
+        double total=0;
+        if (i==0) {
+            for (k = 0; k < this.rows; k++) {
+                total += this.matrix[k][j];
+            }
+        }
+        else {// i > 1
+            for (k = 0; k < this.rows; k++) {
+                total += this.matrix[k][i]*this.matrix[k][j];
+            }
+        }
+        return total;
     }
 }

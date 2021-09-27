@@ -56,7 +56,7 @@ public class Main {
         mUtama.rows = 0; // awowakoka biar input awalnya kosong dulu
         mUtama.cols = 0;
         Matrix B = new Matrix(20, 20); //KHUSUS SPL METODE 3 DAN 4 YO
-        Matrix temp = new Matrix(20, 20); //INI BUAT SWITCH COLUMN GAE SPL METODE CRAMMER
+        Matrix temp = new Matrix(20, 20); //INI BUAT REGRESI LINEAR GAIS 
         B.cols = 1;
         Scanner sc = new Scanner(System.in);
         System.out.print("Ketik menu yang ingin dipilih: ");
@@ -223,12 +223,68 @@ public class Main {
                     y_interpolasi+=solusi[i]*Math.pow(x_interpolasi,i);
                 }
                 System.out.printf("Hasil interpolasi adalah : %.2f", y_interpolasi);
+                System.out.println();
             }
             /*else if (subpilihan==2) { BAGIAN AFAN 
 
             }*/
+            menuUtama();
+            pilihmenu();
         }
-        else if (pilihan == 6){
+        else if (pilihan == 5) { //sumpah iki utekku kobong banget tapi yaudah lah ya demi kalian para cintaku 
+            int a,b,c;
+            double solusi[];
+            Matrix eselon;
+            System.out.println("Ketik 1 untuk memasukkan titik melalui CLI atau 0 untuk memasukkan titik melalui file txt");
+            Scanner sc5 = new Scanner(System.in);
+            int subpilihan = sc5.nextInt();
+            if(subpilihan==1){
+                System.out.println("Jumlah variabel peubah yang ingin dimasukkan :"); //prekondisi n>1
+                Scanner sc6 = new Scanner(System.in);
+                int n = sc6.nextInt();
+                mUtama.rows = n;
+                mUtama.cols = n+2;
+                for (a=0;a<mUtama.rows;a++) {
+                    mUtama.matrix[a][0] = 1;
+                }
+                for (a=0;a<mUtama.rows;a++) {
+                    for (b=1;b<mUtama.cols-1;b++){
+                        System.out.printf("Masukkan nilai dari X%d%d: ", b, (a+1));
+                        elemen = sc.nextDouble();
+                        mUtama.matrix[a][b] = elemen;
+                    }
+                    System.out.printf("Masukkan nilai dari Y%d: ", (a+1));
+                    elemen = sc.nextDouble();
+                    mUtama.matrix[a][b] = elemen;
+                }// DENGAN INI MATRIKS UTAMANYA UDAH KEISI 
+                temp.rows = n+1;
+                temp.cols = n+2;
+                for (a=0;a<temp.rows;a++) {
+                    for (b=0;b<temp.cols;b++){
+                        temp.matrix[a][b] = mUtama.getRegresiElement(a,b);
+                    }
+                }
+                eselon = temp.convertToEselon(false);
+                solusi = eselon.substitusiBalik();
+                System.out.println("nilai dari B yang bersesuaian, dimulai dari derajat 0 di paling kiri");
+                System.out.println(Arrays.toString(solusi));  
+                System.out.println("Masukkan nilai nilai Xk yang ingin ditaksir fungsinya");
+                double total= solusi[0];
+                for (b=1;b<=n;b++){
+                    System.out.printf("Masukkan nilai dari X%d: ", b);
+                    elemen = sc.nextDouble();
+                    total += elemen*solusi[b];
+                }
+                System.out.printf("Hasil taksiran adalah : %.2f", total);
+                System.out.println();
+            } 
+            /*else if (subpilihan==2) { BAGIAN AFAN 
+
+            }*/
+            menuUtama();
+            pilihmenu();     
+        }
+            else if (pilihan == 6){
         penutup();
         }
     }
