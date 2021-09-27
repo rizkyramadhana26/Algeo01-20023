@@ -161,7 +161,7 @@ public class Matrix {
                 System.out.println("Matriksnya singular");
             }
             if (imaks != k){
-                swap_row(k, imaks);
+                this.swap_row(k, imaks);
                 tukar += 1;
             }
             for (i = k + 1; i < this.rows; i++){
@@ -246,7 +246,7 @@ public class Matrix {
         }
     }
 
-    public double determinanKofaktor() {
+    public double determinanKofaktor() { //nyari determinan pakai metode kofaktor
         int k,tanda = 1;
         double determinan = 0;
         Matrix sementara = new Matrix(this.rows-1,this.cols-1);
@@ -256,17 +256,26 @@ public class Matrix {
         else {
             for (k=0;k<this.rows;k++) {
                 sementara = this.getMinor(0,k);
-                //sementara.displayMatrix();
                 determinan += tanda*sementara.determinanKofaktor()*this.matrix[0][k];
-                /*System.out.print(this.matrix[0][k]);
-                System.out.print("*");
-                System.out.print(sementara.getKofaktor(0,k));
-                if (k!= this.rows -1) {
-                    System.out.print(" + ");
-                }*/
                 tanda *= -1;
             }
         } 
         return determinan;
+    }
+
+    public Matrix kaliMatrix(Matrix m1, Matrix m2) { //PREKONDISI : kolom m1 = baris m2, kalau engga nanti diatasi di main.java aja
+        Matrix hasil = new Matrix(m1.rows,m2.cols);
+        int i,j,k ;
+        double total ;
+        for (i=0;i<hasil.rows;i++) {
+            for (j=0;j<hasil.cols; j++){
+                total = 0;
+                for (k=0; k < m2.cols; k++) {
+                    total += m1.matrix[i][k]*m2.matrix[k][j];
+                }
+                hasil.matrix[i][j] = total;
+            }
+        }
+        return hasil;
     }
 }
