@@ -73,18 +73,22 @@ public class Main {
             //UNTUK METODE 3 dan 4, INPUT MATRIKS A HARUS PERSEGI
             if(metode==1){
                 Matrix mAwal = inputMatrix();
-                mAwal.extendMatrix(mAwal.cols-1>mAwal.rows ? mAwal.cols-1-mAwal.rows : 0,0);
-                Matrix eselon = mAwal.convertToEselon(false);
+                Matrix mProses = mAwal.extendMatrix(mAwal.cols-1>mAwal.rows ? mAwal.cols-1-mAwal.rows : 0,0);
+                Matrix eselon = mProses.convertToEselon(false);
                 double solusi[] = eselon.substitusiBalik();
-                System.out.println("Penyelesaian persamaan tersebut adalah"); //asumsi solusi tunggal
-                System.out.println(Arrays.toString(solusi));
+                if(!eselon.isUndef()){
+                    System.out.println("Penyelesaian persamaan tersebut adalah"); //asumsi solusi tunggal
+                    System.out.println(Arrays.toString(solusi));
+                }
             } else if(metode==2){
                 Matrix mAwal = inputMatrix();
-                mAwal.extendMatrix(mAwal.cols-1>mAwal.rows ? mAwal.cols-1-mAwal.rows : 0,0);
-                Matrix eselon = mAwal.convertToEselon(true);
+                Matrix mProses = mAwal.extendMatrix(mAwal.cols-1>mAwal.rows ? mAwal.cols-1-mAwal.rows : 0,0);
+                Matrix eselon = mProses.convertToEselon(true);
                 double solusi[] = eselon.substitusiBalik();
-                System.out.println("Penyelesaian persamaan tersebut adalah"); //asumsi solusi tunggal
-                System.out.println(Arrays.toString(solusi));
+                if(!eselon.isUndef()){
+                    System.out.println("Penyelesaian persamaan tersebut adalah"); //asumsi solusi tunggal
+                    System.out.println(Arrays.toString(solusi));
+                }
             } else if(metode==3){
 
             } else if(metode==4){

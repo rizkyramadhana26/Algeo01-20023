@@ -68,10 +68,8 @@ public class Matrix {
     }
 
     public Matrix extendMatrix(int row, int col) { //SAMA SEPERTI COPY MATRIX, TAPI UKURANNYA DITAMBAH AJA TRUS BIARIN KOSONG
-        Matrix mOutput = new Matrix(this.rows, this.cols);
+        Matrix mOutput = new Matrix(this.rows + row, this.cols + col);
         int i, j;
-        mOutput.rows = this.rows + row;
-        mOutput.cols = this.cols + col;
         for (i = 0; i < this.rows; i++) {
             for (j = 0; j < this.cols; j++) {
                 mOutput.matrix[i][j] = this.matrix[i][j];
@@ -340,13 +338,15 @@ public class Matrix {
         mOutput = this.copyMatrix();
         singular_flag = mOutput.forwardElim(tereduksi);
         if (singular_flag != -1){
-            System.out.println("Matrix singular");
+            //System.out.println("Matrix singular");
             if (mOutput.matrix[singular_flag][this.cols-1] != 0){
-                System.out.print("Tidak memiliki solusi");
+                System.out.print("Solusinya tidak tunggal\n");
             } else {
-                System.out.print("Memiliki tak hingga solusi");
+                System.out.print("Solusinya tidak tunggal\n");
             }
-            return mOutput ;
+            Matrix undef = new Matrix(1,1);
+            undef.matrix[0][0]=-999;
+            return undef;
         }
         return mOutput;
     }
@@ -408,7 +408,7 @@ public class Matrix {
             found=false;
             j=0;
             while(j<this.cols-1 && !found){
-                if(this.matrix[i][j]==0){
+                if(Math.abs(this.matrix[i][j])<=0.001){ //hati hati dengan rounding error
                     j++;
                 } else {
                     bukan0=j;
@@ -424,6 +424,12 @@ public class Matrix {
                 System.out.printf("Baris ke-%d dibagi dengan %.2f\n", (i+1), (p));
                 displayMatrix();
             }
+            if(!found && i==this.cols-2 ){
+                return this.cols-2; //tidak ada solusi
+            }
+        }
+        if(isRowsZero()){
+            return this.rows-1;  //solusi tak hingga
         }
         return -1;
     }
@@ -460,5 +466,8 @@ public class Matrix {
             }
         }
         return total;
+    }
+    public boolean isUndef(){
+        return (this.rows==1) && (this.cols==1) && (this.matrix[0][0]==-999);
     }
 }
