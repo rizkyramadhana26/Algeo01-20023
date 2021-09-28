@@ -196,22 +196,24 @@ public class Main {
             subPilihan = sc.nextInt();
 
             if (subPilihan == 1) {
-                mUtama = inputMatrix();
-                if (mUtama.cols != mUtama.rows) {
-                    System.out.println("Matriks bukan persegi, tidak bisa dicari balikannya");
-                } else if (mUtama.determinanKofaktor() == 0) {
+                System.out.print("Masukkan ukuran matriks persegi: ");
+                size = sc.nextInt();
+                mUtama.readMatrix(size,size);
+                if (mUtama.determinanKofaktor() == 0) {
                     System.out.println("Matriks mempunyai determinan 0, tidak bisa dicari balikannya");
                 } else {
 
                 }
             } else if (subPilihan == 2) {
-                mUtama = inputMatrix();
-                if (mUtama.cols != mUtama.rows) {
-                    System.out.println("Matriks bukan persegi, tidak bisa dicari balikannya");
-                } else if (mUtama.determinanKofaktor() == 0) {
+                System.out.print("Masukkan ukuran matriks persegi: ");
+                size = sc.nextInt();
+                mUtama.readMatrix(size,size);
+                if (mUtama.determinanKofaktor() == 0) {
                     System.out.println("Matriks mempunyai determinan 0, tidak bisa dicari balikannya");
                 } else {
-                    
+                    mUtama = mUtama.InverseKofaktor();  // MEMANGGIL FUNGSI Inverse metode kofaktor
+                    System.out.println("Matriks inverse adalah:");
+                    mUtama.displayMatrix();
                 }
             } else {
                 System.out.println("Subpilihan tidak sesuai, dikembalikan ke menu utama");

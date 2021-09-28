@@ -275,7 +275,7 @@ public class Matrix {
     public double getKofaktor(int i, int j) {//ngembaliin kofaktornya, udah sesuai tanda
         Matrix mOutput = new Matrix(this.rows-1,this.cols-1);
         mOutput = this.getMinor(i,j);
-        if (i + j % 2 ==0) {
+        if ((i + j) % 2 ==0) {
             return mOutput.determinanKofaktor();
         }
         else {
@@ -484,7 +484,7 @@ public class Matrix {
         return (this.rows==1) && (this.cols==1) && (this.matrix[0][0]==-999);
     }
 
-    public Matrix Transpose() { //ngembaliin transpose
+    public Matrix Transpose() { //mengembalikan transpose
         Matrix mOutput = new Matrix(this.cols,this.rows);
         int i,j ;
         mOutput.rows = this.cols;
@@ -496,4 +496,18 @@ public class Matrix {
         }
         return mOutput ;
     }
+
+    public Matrix InverseKofaktor() { //mengembalikan matriks balikan dengan metode kofaktor
+    // Pre-kondisi: matriks persegi nxn dan sudah dicek sebelumnya apakah det(A) = 0.
+        int i,j;
+        Matrix kofaktor = this.MatriksKofaktor();
+        Matrix adj = kofaktor.Transpose();
+        for (i=0;i<adj.rows;i++) {
+            for (j=0;j<adj.cols;j++){
+               adj.matrix[i][j] = adj.matrix[i][j]/this.determinanKofaktor();
+            }
+        }
+        return adj ;
+    }
 }
+
