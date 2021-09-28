@@ -189,7 +189,37 @@ public class Main {
             System.out.println("-------------------------------------------------------");
             menuUtama();
             pilihmenu();
-        } 
+        } else if (pilihan == 3) {      // Balikan matriks
+            System.out.println("Ketik 1 untuk menggunakan metode OBE");
+            System.out.println("Ketik 2 untuk menggunakan metode adjoint");
+            System.out.print("Masukkan pilihan anda = ");
+            subPilihan = sc.nextInt();
+
+            if (subPilihan == 1) {
+                mUtama = inputMatrix();
+                if (mUtama.cols != mUtama.rows) {
+                    System.out.println("Matriks bukan persegi, tidak bisa dicari balikannya");
+                } else if (mUtama.determinanKofaktor() == 0) {
+                    System.out.println("Matriks mempunyai determinan 0, tidak bisa dicari balikannya");
+                } else {
+
+                }
+            } else if (subPilihan == 2) {
+                mUtama = inputMatrix();
+                if (mUtama.cols != mUtama.rows) {
+                    System.out.println("Matriks bukan persegi, tidak bisa dicari balikannya");
+                } else if (mUtama.determinanKofaktor() == 0) {
+                    System.out.println("Matriks mempunyai determinan 0, tidak bisa dicari balikannya");
+                } else {
+                    
+                }
+            } else {
+                System.out.println("Subpilihan tidak sesuai, dikembalikan ke menu utama");
+            }
+            System.out.println("-------------------------------------------------------");
+            menuUtama();
+            pilihmenu();
+        }
         else if (pilihan == 4){
             int j;
             Matrix eselon;
