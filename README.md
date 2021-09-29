@@ -383,3 +383,55 @@ Masukkan nilai ordinat yang ingin diinterpolasi
 Hasil interpolasi adalah : 0.03 
 ```
 ## Regresi Linear Berganda
+Pada subprogram ini, akan diterima n buah titik dan k buah variabel peubah lalu program akan membuat sebuah persamaan regresi yang memiliki k buah koefisien (untuk tiap variabel peubah, dinotasikan dengan b_k) dengan 1 konstanta (b_0). Contohnya terdapat pada studi kasus 7 yang memiliki 20 titik dan 3 variabel peubah.
+
+Maka titik-titik tersebut harus dimasukkan ke dalam program melalui interaksi sebagai berikut
+```
+Jumlah variabel peubah yang ingin dimasukkan :
+3
+Jumlah titik yang ingin dimasukkan :
+20
+Masukkan nilai dari X11: 72.4
+Masukkan nilai dari X21: 76.3
+Masukkan nilai dari X31: 29.18
+Masukkan nilai dari Y1: 0.9
+Masukkan nilai dari X12: 41.6
+Masukkan nilai dari X22: 70.3
+Masukkan nilai dari X32: 29.35
+Masukkan nilai dari Y2: 0.91
+Masukkan nilai dari X13: 34.3
+Masukkan nilai dari X23: 77.1
+Masukkan nilai dari X33: 29.24
+Masukkan nilai dari Y3: 0.96
+.....(semua titik lain).....
+Masukkan nilai dari X120: 54.9
+Masukkan nilai dari X220: 70.9
+Masukkan nilai dari X320: 29.37
+Masukkan nilai dari Y20: 0.95
+```
+
+Lalu program akan menyusun semua titik tersebut menjadi sebuah matriks augmented sesuai persamaan *Normal Estimation Equation
+for Multiple Linear Regression*.
+```
+Matrix awal
+20.00 863.10 1530.40 587.84 19.42 
+863.10 54876.89 67000.09 25283.40 779.48
+1530.40 67000.09 117912.32 44976.87 1483.44
+587.84 25283.40 44976.87 17278.51 571.12
+```
+
+Kemudian, program akan menjalankan proses eliminasi Gauss untuk mendapatkan nilai dari tiap b_k. 
+```
+nilai dari B yang bersesuaian, dimulai dari derajat 0 di paling kiri
+[-3.507778140873786, -0.0026249907458798733, 7.989410472207764E-4, 0.1541550301979756]
+```
+
+Kemudian program akan meminta nilai absis dari tiap variabel peubah yang ingin ditaksir menggunakan persamaan regresi yang sudah dibuat. Untuk kasus ini, kita menggunakan studi kasus 7 sebagai berikut
+```
+Masukkan nilai nilai Xk yang ingin ditaksir fungsinya
+Masukkan nilai dari X1: 50
+Masukkan nilai dari X2: 76
+Masukkan nilai dari X3: 29.3
+Hasil taksiran adalah : 0.94
+```
+
