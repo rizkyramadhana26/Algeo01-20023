@@ -399,7 +399,7 @@ public class Matrix {
                     System.out.printf("Tukar baris ke-%d dan baris ke-%d\n", (k+1), (i_max+1));
                     displayMatrix();
                 }
-                for (i = k + 1; i < this.cols-1; i++){
+                for (i = k + 1; i < this.rows; i++){
                     bukan0=k;
                     found=false;
                     j=k;
@@ -422,14 +422,40 @@ public class Matrix {
             }
         }
         if(tereduksi){
-            for (i = 0; i < this.cols-1; i++){
-                for (j = 0; j < this.cols-1; j++){
-                    if (i != j){
-                        p = this.matrix[j][i] / this.matrix[i][i];
-                        for (k = 0; k <= this.cols-1; k++)                
-                            this.matrix[j][k] = this.matrix[j][k] - (this.matrix[i][k]) * p;
-                            System.out.printf("Baris ke-%d dikurangi baris ke-%d dikali %.2f\n", (j+1), (i+1), p);
-                            displayMatrix();            
+            // for (i = 0; i < this.cols-1; i++){
+            //     for (j = 0; j < this.rows; j++){
+            //         if (i != j){
+            //             p = this.matrix[j][i] / this.matrix[i][i];
+            //             for (k = 0; k <= this.cols-1; k++)                
+            //                 this.matrix[j][k] = this.matrix[j][k] - (this.matrix[i][k]) * p;
+            //                 System.out.printf("Baris ke-%d dikurangi baris ke-%d dikali %.2f\n", (j+1), (i+1), p);
+            //                 displayMatrix();            
+            //         }
+            //     }
+            // }
+            for(i=0; i<this.rows; i++){
+                bukan0=0;
+                found=false;
+                j=0;
+                while(j<this.cols && !found){
+                    if(Math.abs(this.matrix[i][j])<=0.001){ //hati hati dengan rounding error
+                        j++;
+                    } else {
+                        bukan0=j;
+                        found=true;
+                    }
+                }
+                if(found){
+                    System.out.println("baris ke"+(i+1) + "" + bukan0);
+                    for(k=0;k<i;k++){
+                        f = this.matrix[k][bukan0] / this.matrix[i][bukan0]; 
+                        System.out.println(f);
+                        for(int l=0;l<this.cols;l++){
+                            this.matrix[k][l] = this.matrix[k][l] - this.matrix[i][l]*f;
+                        }
+                        this.matrix[k][bukan0]=0;
+                        System.out.printf("Baris ke-%d dikurangi baris ke-%d dikali %.2f\n", (k+1), (i+1), f);
+                        displayMatrix();    
                     }
                 }
             }
