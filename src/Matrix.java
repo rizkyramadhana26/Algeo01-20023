@@ -301,15 +301,15 @@ public class Matrix {
         return determinan;
     }
 
-    public Matrix kaliMatrix(Matrix m1, Matrix m2) { //PREKONDISI : kolom m1 = baris m2, kalau engga nanti diatasi di main.java aja
-        Matrix hasil = new Matrix(m1.rows,m2.cols);
+    public Matrix kaliMatrix(Matrix m2) { //PREKONDISI : kolom m1 = baris m2, kalau engga nanti diatasi di main.java aja
+        Matrix hasil = new Matrix(this.rows,m2.cols);
         int i,j,k ;
         double total ;
         for (i=0;i<hasil.rows;i++) {
             for (j=0;j<hasil.cols; j++){
                 total = 0;
-                for (k=0; k < m2.cols; k++) {
-                    total += m1.matrix[i][k]*m2.matrix[k][j];
+                for (k=0; k < this.cols; k++) {
+                    total += this.matrix[i][k]*m2.matrix[k][j];
                 }
                 hasil.matrix[i][j] = total;
             }
@@ -558,10 +558,11 @@ public class Matrix {
 
     public Matrix InverseOBE() {
         Matrix temp = new Matrix(this.rows,this.cols*2);
+        int i,j;
         temp.rows = this.rows;
         temp.cols = this.cols*2;
-        for (int i = 0; i<temp.rows; i++) {
-            for (int j=0; j<temp.cols; j++) {
+        for (i = 0; i<temp.rows; i++) {
+            for (j=0; j<temp.cols; j++) {
                 if(j<this.cols){
                     temp.matrix[i][j] = this.matrix[i][j];
                 }else{
@@ -574,12 +575,42 @@ public class Matrix {
             }
         }
         Matrix eselon = temp.convertToEselon(true);
-        double solusi[] = eselon.substitusiBalik();
-        if(!eselon.isUndef()){
-            System.out.println("Penyelesaian persamaan tersebut adalah"); //asumsi solusi tunggal
-            System.out.println(Arrays.toString(solusi));
+        Matrix kiri = eselon.copyMatrix();
+        kiri.cols /= 2;
+        if (kiri.isIdentity()) {
+            System.out.println("Matriks hasil inversnya adalah: ");
+            for (i = 0; i<eselon.rows; i++) {
+                for (j= eselon.cols/2; j<eselon.cols; j++) {
+                    System.out.printf("%.2f ", eselon.matrix[i][j]);
+                }
+                System.out.println();
+            }            
+        }
+        else {
+            System.out.println("Matriks sebelah kiri gagal dijadikan matriks identitas. ");
+            System.out.println("Tidak bisa mendapatkan inversnya. ");
         }
         return temp;
+    }
+
+    public boolean isIdentity() {
+        boolean identitas = true;
+        int i,j;
+        for (i = 0; i < this.rows; i++) {
+            for (j = 0; j < this.cols; j++) {
+                if (i==j) {
+                    if (this.matrix[i][j] != 1){
+                        identitas = false;
+                    }
+                }
+                else {
+                    if (this.matrix[i][j] != 0){
+                        identitas = false;
+                    }
+                }
+            }
+        }
+        return identitas;
     }
 }
 
