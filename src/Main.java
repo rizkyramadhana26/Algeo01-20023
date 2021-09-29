@@ -31,10 +31,10 @@ public class Main {
         System.out.println("4. Kaidah Cramer");
     }
 
-    public static Matrix inputMatrix() {
+    public static Matrix inputMatrix(boolean persegi) {
         Scanner sc = new Scanner(System.in);
         Matrix hasil = new Matrix(20, 20);
-        int subPilihan, baris, kolom;
+        int subPilihan, baris, kolom, size;
         System.out.println("Ketik 1 untuk menambah matriks by input user");
         System.out.println("Ketik 2 untuk input matriks dari file txt");
         System.out.print("Masukkan sub-pilihan anda: ");
@@ -45,10 +45,17 @@ public class Main {
             subPilihan = sc.nextInt();
         }
         if (subPilihan == 1) {
-            System.out.print("Masukkan baris matriksnya: ");
-            baris = sc.nextInt();
-            System.out.print("Masukkan kolom matriksnya: ");
-            kolom = sc.nextInt();
+            if (persegi) {
+                System.out.print("Masukkan ukuran matriks persegi: ");
+                size = sc.nextInt();
+                baris = size;
+                kolom = size;
+            } else {
+                System.out.print("Masukkan baris matriksnya: ");
+                baris = sc.nextInt();
+                System.out.print("Masukkan kolom matriksnya: ");
+                kolom = sc.nextInt();
+            }
             Matrix mTerminal = new Matrix(baris, kolom);
             mTerminal.readMatrix(baris, kolom);
             hasil = mTerminal.copyMatrix();
@@ -69,7 +76,7 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         System.out.print("Ketik menu yang ingin dipilih: ");
         int pilihan = sc.nextInt();
-        int subPilihan, i,saul,k,size;
+        int subPilihan, i,saul,k;
         double elemen;
         System.out.println("-------------------------------------------------------");
         if (pilihan==1){
@@ -80,7 +87,7 @@ public class Main {
             //UNTUK METODE 1 DAN 2, jumlah baris harus sama dengan jumlah variabel, jumlah kolom harus sama dengan jumlah variabel ditambah 1 
             //UNTUK METODE 3 dan 4, INPUT MATRIKS A HARUS PERSEGI
             if(metode==1){
-                Matrix mAwal = inputMatrix();
+                Matrix mAwal = inputMatrix(false);
                 Matrix mProses = mAwal.extendMatrix(mAwal.cols-1>mAwal.rows ? mAwal.cols-1-mAwal.rows : 0,0);
                 Matrix eselon = mProses.convertToEselon(false);
                 double solusi[] = eselon.substitusiBalik();
@@ -89,7 +96,7 @@ public class Main {
                     System.out.println(Arrays.toString(solusi));
                 }
             } else if(metode==2){
-                Matrix mAwal = inputMatrix();
+                Matrix mAwal = inputMatrix(false);
                 Matrix mProses = mAwal.extendMatrix(mAwal.cols-1>mAwal.rows ? mAwal.cols-1-mAwal.rows : 0,0);
                 Matrix eselon = mProses.convertToEselon(true);
                 double solusi[] = eselon.substitusiBalik();
@@ -101,13 +108,9 @@ public class Main {
                 System.out.println("Menggunakan metode matriks balikan, bentuk matriks Ax = B");
                 System.out.println("Silahkan menginput matriks A: ");
                 Matrix mAwal = new Matrix(20,20);
-                mAwal = inputMatrix();
+                mAwal = inputMatrix(true);
                 Double detAwal = mAwal.determinanKofaktor();
-                if (mAwal.rows != mAwal.cols) {
-                    System.out.println("Matriks A tidak persegi, tidak bisa menggunakan metode ini.");
-                    System.out.println("Akan dikembalikan ke menu utama");
-                }
-                else if (detAwal == 0) {
+                if (detAwal == 0) {
                     System.out.println("Determinan matriks A adalah 0 sehingga tidak bisa menggunakan metode ini karena tidak ada inversnya.");
                     System.out.println("Akan dikembalikan ke menu utama");
                 }
@@ -141,13 +144,9 @@ public class Main {
                 System.out.println("Menggunakan metode Cramer, bentuk matriks Ax = B");
                 System.out.println("Silahkan menginput matriks A: ");
                 Matrix mAwal = new Matrix(20,20);
-                mAwal = inputMatrix();
+                mAwal = inputMatrix(true);
                 Double detAwal = mAwal.determinanKofaktor();
-                if (mAwal.rows != mAwal.cols) {
-                    System.out.println("Matriks A tidak persegi, tidak bisa menggunakan metode ini.");
-                    System.out.println("Akan dikembalikan ke menu utama");
-                }
-                else if (detAwal == 0) {
+                if (detAwal == 0) {
                     System.out.println("Determinan matriks A adalah 0 sehingga tidak bisa menggunakan metode ini karena solusinya banyak / tidak ada solusi.");
                     System.out.println("Akan dikembalikan ke menu utama");
                 }
@@ -205,33 +204,23 @@ public class Main {
             System.out.print("Masukkan pilihan anda: ");
             subPilihan = sc.nextInt();
             if (subPilihan == 1) {
-                mUtama = inputMatrix();
-                if (mUtama.cols != mUtama.rows) {
-                    System.out.println("Matriks bukan persegi, tidak bisa dicari determinannya");
-                }
-                else {
-                    System.out.println("Determinan perkalian diagonal utamanya adalah (plus minus bergantung banyaknya operasi swap): " +mUtama.determinanOBE());
-                }
+                mUtama = inputMatrix(true);
+                System.out.println("Determinan perkalian diagonal utamanya adalah (plus minus bergantung banyaknya operasi swap): " +mUtama.determinanOBE());
             } 
             else if (subPilihan == 2) {
-                mUtama = inputMatrix();
-                if (mUtama.cols != mUtama.rows) {
-                    System.out.println("Matriks bukan persegi, tidak bisa dicari determinannya");
-                }
-                else{
-                    System.out.println("Mencari determinan dengan menggunakan kofaktor pada baris pertama.");
-                    System.out.print("Determinannya adalah: ");
-                    for (i = 0; i < mUtama.rows; i++) {
-                        System.out.print(mUtama.matrix[0][i]);
-                        System.out.print("*");
-                        System.out.print(mUtama.getKofaktor(0, i));
-                        if (i != mUtama.rows - 1) {
-                            System.out.print(" + ");
-                        }
+                mUtama = inputMatrix(true);
+                System.out.println("Mencari determinan dengan menggunakan kofaktor pada baris pertama.");
+                System.out.print("Determinannya adalah: ");
+                for (i = 0; i < mUtama.rows; i++) {
+                    System.out.print(mUtama.matrix[0][i]);
+                    System.out.print("*");
+                    System.out.print(mUtama.getKofaktor(0, i));
+                    if (i != mUtama.rows - 1) {
+                        System.out.print(" + ");
                     }
-                    System.out.print(": ");
-                    System.out.println(mUtama.determinanKofaktor());
                 }
+                System.out.print(": ");
+                System.out.println(mUtama.determinanKofaktor());
             }
             else {
                 System.out.println("Subpilihan tidak sesuai, dikembalikan ke menu utama");
@@ -245,18 +234,31 @@ public class Main {
             System.out.print("Masukkan pilihan anda = ");
             subPilihan = sc.nextInt();
             if (subPilihan == 1) {
-                System.out.print("Masukkan ukuran matriks persegi: ");
-                size = sc.nextInt();
-                mUtama.readMatrix(size,size);
+                mUtama = inputMatrix(true);
                 if (mUtama.determinanKofaktor() == 0) {
                     System.out.println("Matriks mempunyai determinan 0, tidak bisa dicari balikannya");
                 } else {
                     mUtama = mUtama.InverseOBE();
+
+                    Matrix kiri = mUtama.copyMatrix();
+                    kiri.cols /= 2;
+                    if (kiri.isIdentity()) {
+                        int j;
+                        for (i = 0; i<kiri.rows; i++) {
+                            for (j= 0; j<kiri.cols; j++) {
+                                kiri.matrix[i][j] = kiri.matrix[i][j+kiri.cols];
+                            }
+                        }    
+                    System.out.println("Matriks invers adalah: ");        
+                    kiri.displayMatrix();
+                    }
+                    else {
+                        System.out.println("Matriks sebelah kiri gagal dijadikan matriks identitas. ");
+                        System.out.println("Tidak bisa mendapatkan inversnya. ");
+                    }
                 }
             } else if (subPilihan == 2) {
-                System.out.print("Masukkan ukuran matriks persegi: ");
-                size = sc.nextInt();
-                mUtama.readMatrix(size,size);
+                mUtama = inputMatrix(true);
                 if (mUtama.determinanKofaktor() == 0) {
                     System.out.println("Matriks mempunyai determinan 0, tidak bisa dicari balikannya");
                 } else {
@@ -362,7 +364,7 @@ public class Main {
                     elemen = sc.nextDouble();
                     total += elemen*solusi[b];
                 }
-                System.out.printf("Hasil taksiran adalah : %.2f", total);
+                System.out.printf("Hasil taksiran adalah : %.2f \n", total);
                 System.out.println("-------------------------------------------------------");
             } 
             /*else if (subpilihan==2) { BAGIAN AFAN 

@@ -40,7 +40,7 @@ public class Matrix {
         int i, j;
         for (i = 0; i < this.rows; i++) {
             for (j = 0; j < this.cols; j++) {
-                System.out.printf("%.2f ", this.matrix[i][j]);
+                System.out.printf("%f ", this.matrix[i][j]);
             }
             System.out.println();
         }
@@ -179,7 +179,7 @@ public class Matrix {
                     this.matrix[i][j] -= this.matrix[k][j] * faktor;
                 }
                 this.matrix[i][k] = 0;
-                System.out.printf("Baris ke-%d dikurangi baris ke-%d dikali %.2f\n", (i+1), (k+1), faktor);
+                System.out.printf("Baris ke-%d dikurangi baris ke-%d dikali %f\n", (i+1), (k+1), faktor);
                 displayMatrix();
             }
         }
@@ -417,7 +417,7 @@ public class Matrix {
                         this.matrix[i][j] -= this.matrix[k][j] * f;
                     }
                     this.matrix[i][k] = 0;
-                    System.out.printf("Baris ke-%d dikurangi baris ke-%d dikali %.2f\n", (i+1), (k+1), f);
+                    System.out.printf("Baris ke-%d dikurangi baris ke-%d dikali %f\n", (i+1), (k+1), f);
                     displayMatrix();
                 }
             }
@@ -455,7 +455,7 @@ public class Matrix {
                             this.matrix[k][l] = this.matrix[k][l] - this.matrix[i][l]*f;
                         }
                         this.matrix[k][bukan0]=0;
-                        System.out.printf("Baris ke-%d dikurangi baris ke-%d dikali %.2f\n", (k+1), (i+1), f);
+                        System.out.printf("Baris ke-%d dikurangi baris ke-%d dikali %f\n", (k+1), (i+1), f);
                         displayMatrix();    
                     }
                 }
@@ -481,7 +481,7 @@ public class Matrix {
                 for(k=0;k<this.cols;k++){
                     this.matrix[i][k]/=p;
                 }
-                System.out.printf("Baris ke-%d dibagi dengan %.2f\n", (i+1), (p));
+                System.out.printf("Baris ke-%d dibagi dengan %f\n", (i+1), (p));
                 displayMatrix();
             }
             if(bukan0 == this.cols-1 && i==this.rows-1 && !isRowsZero()){
@@ -576,22 +576,7 @@ public class Matrix {
             }
         }
         Matrix eselon = temp.convertToEselon(true);
-        Matrix kiri = eselon.copyMatrix();
-        kiri.cols /= 2;
-        if (kiri.isIdentity()) {
-            System.out.println("Matriks hasil inversnya adalah: ");
-            for (i = 0; i<eselon.rows; i++) {
-                for (j= eselon.cols/2; j<eselon.cols; j++) {
-                    System.out.printf("%.2f ", eselon.matrix[i][j]);
-                }
-                System.out.println();
-            }            
-        }
-        else {
-            System.out.println("Matriks sebelah kiri gagal dijadikan matriks identitas. ");
-            System.out.println("Tidak bisa mendapatkan inversnya. ");
-        }
-        return temp;
+        return eselon;
     }
 
     public boolean isIdentity() {
