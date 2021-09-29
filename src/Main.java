@@ -189,7 +189,40 @@ public class Main {
             System.out.println("-------------------------------------------------------");
             menuUtama();
             pilihmenu();
-        } 
+        } else if (pilihan == 3) {      // Balikan matriks
+            System.out.println("Ketik 1 untuk menggunakan metode OBE");
+            System.out.println("Ketik 2 untuk menggunakan metode adjoint");
+            System.out.print("Masukkan pilihan anda = ");
+            subPilihan = sc.nextInt();
+
+            if (subPilihan == 1) {
+                System.out.print("Masukkan ukuran matriks persegi: ");
+                size = sc.nextInt();
+                mUtama.readMatrix(size,size);
+                if (mUtama.determinanKofaktor() == 0) {
+                    System.out.println("Matriks mempunyai determinan 0, tidak bisa dicari balikannya");
+                } else {
+                    mUtama = mUtama.InverseOBE();
+                    mUtama.displayMatrix();
+                }
+            } else if (subPilihan == 2) {
+                System.out.print("Masukkan ukuran matriks persegi: ");
+                size = sc.nextInt();
+                mUtama.readMatrix(size,size);
+                if (mUtama.determinanKofaktor() == 0) {
+                    System.out.println("Matriks mempunyai determinan 0, tidak bisa dicari balikannya");
+                } else {
+                    mUtama = mUtama.InverseKofaktor();  // MEMANGGIL FUNGSI Inverse metode kofaktor
+                    System.out.println("Matriks inverse adalah:");
+                    mUtama.displayMatrix();
+                }
+            } else {
+                System.out.println("Subpilihan tidak sesuai, dikembalikan ke menu utama");
+            }
+            System.out.println("-------------------------------------------------------");
+            menuUtama();
+            pilihmenu();
+        }
         else if (pilihan == 4){
             int j;
             Matrix eselon;

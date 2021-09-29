@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.Arrays;
 import java.lang.Math;
 
 public class Matrix {
@@ -259,10 +260,23 @@ public class Matrix {
         return mOutput ;
     }
 
+    public Matrix MatriksKofaktor() { //mengembalikan matriks kofaktor
+        Matrix mOutput = new Matrix(this.rows,this.cols);
+        int i,j ;
+        mOutput.rows = this.rows;
+        mOutput.cols = this.cols;
+        for (i=0;i<this.rows;i++) {
+            for (j=0; j<this.cols; j++) {
+                mOutput.matrix[i][j] = this.getKofaktor(i,j);
+            }
+        }
+        return mOutput ;
+    }
+
     public double getKofaktor(int i, int j) {//ngembaliin kofaktornya, udah sesuai tanda
         Matrix mOutput = new Matrix(this.rows-1,this.cols-1);
         mOutput = this.getMinor(i,j);
-        if (i + j % 2 ==0) {
+        if ((i + j) % 2 ==0) {
             return mOutput.determinanKofaktor();
         }
         else {
@@ -489,4 +503,57 @@ public class Matrix {
     public boolean isUndef(){
         return (this.rows==1) && (this.cols==1) && (this.matrix[0][0]==-999);
     }
+
+    public Matrix Transpose() { //mengembalikan transpose
+        Matrix mOutput = new Matrix(this.cols,this.rows);
+        int i,j ;
+        mOutput.rows = this.cols;
+        mOutput.cols = this.rows;
+        for (i=0;i<mOutput.rows;i++) {
+            for (j=0; j<mOutput.cols; j++) {
+                mOutput.matrix[i][j] = this.matrix[j][i];
+            }
+        }
+        return mOutput ;
+    }
+
+    public Matrix InverseKofaktor() { //mengembalikan matriks balikan dengan metode kofaktor
+    // Pre-kondisi: matriks persegi nxn dan sudah dicek sebelumnya apakah det(A) = 0.
+        int i,j;
+        Matrix kofaktor = this.MatriksKofaktor();
+        Matrix adj = kofaktor.Transpose();
+        for (i=0;i<adj.rows;i++) {
+            for (j=0;j<adj.cols;j++){
+               adj.matrix[i][j] = adj.matrix[i][j]/this.determinanKofaktor();
+            }
+        }
+        return adj ;
+    }
+
+    public Matrix InverseOBE() {
+        Matrix temp = new Matrix(this.rows,this.cols*2);
+        temp.rows = this.rows;
+        temp.cols = this.cols*2;
+        for (int i = 0; i<temp.rows; i++) {
+            for (int j=0; j<temp.cols; j++) {
+                if(j<this.cols){
+                    temp.matrix[i][j] = this.matrix[i][j];
+                }else{
+                    if(i==(j-this.cols)){
+                        temp.matrix[i][j] = 1;
+                    }else {
+                        temp.matrix[i][j] = 0;
+                    }
+                }
+            }
+        }
+        Matrix eselon = temp.convertToEselon(true);
+        double solusi[] = eselon.substitusiBalik();
+        if(!eselon.isUndef()){
+            System.out.println("Penyelesaian persamaan tersebut adalah"); //asumsi solusi tunggal
+            System.out.println(Arrays.toString(solusi));
+        }
+        return temp;
+    }
 }
+
