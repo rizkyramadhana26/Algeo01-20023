@@ -302,7 +302,7 @@ public class Matrix {
         }
         return hasil;
     }
-    public boolean cekEselon() {
+    public boolean cekReadyEselon() {
         //Mengecek apakah matrix merupakan matriks eselon baris
         int i = 0, j = 0, bukan0, bukan0sebelumnya;
         boolean found, eselon;
@@ -311,20 +311,27 @@ public class Matrix {
         eselon = true;
         while (i < this.rows && eselon) {
             found = false; //apakah elemen pertama yang bukan 0 telah ditemukan
+            j=0;
             while (j < this.cols && eselon && !found) { //mencari elemen pertama bukan 0 di tiap baris
                 if (this.matrix[i][j] != 0) {
                     bukan0 = j;
                     found = true;
+                    //System.out.println(bukan0);
                 } else {
                     j++;
                 }
             }
             if (found) { //mengecek kriteria eselon baris
-                if (bukan0sebelumnya >= bukan0 | this.matrix[i][bukan0] != 1) {
+                // System.out.println(bukan0);
+                // System.out.println(bukan0sebelumnya);
+                // System.out.println(bukan0sebelumnya>=bukan0);
+                if (bukan0sebelumnya >= bukan0) {
                     eselon = false;
+                } else {
+                    bukan0sebelumnya = bukan0;
                 }
             } else {
-                bukan0sebelumnya = bukan0;
+                bukan0sebelumnya = this.cols;
             }
             i++;
         }
@@ -340,9 +347,9 @@ public class Matrix {
         if (singular_flag != -1){
             //System.out.println("Matrix singular");
             if (mOutput.matrix[singular_flag][this.cols-1] != 0){
-                System.out.print("Solusinya tidak tunggal\n");
+                System.out.print("Tidak memiliki solusi\n");
             } else {
-                System.out.print("Solusinya tidak tunggal\n");
+                System.out.print("Memiliki tak hingga solusi\n");
             }
             Matrix undef = new Matrix(1,1);
             undef.matrix[0][0]=-999;
@@ -362,30 +369,42 @@ public class Matrix {
         //algoritma
         System.out.println("Matrix awal");
         displayMatrix();
-        for (k = 0; k < this.cols-1; k++){
+        for (k = 0; k < this.rows-1; k++){
             i_max = k;
             v_max = (int)this.matrix[i_max][k];
-            for (i = k + 1; i < this.cols-1; i++)
+            for (i = k + 1; i < this.rows-1; i++)
                 if (Math.abs(this.matrix[i][k]) > v_max){
                     v_max = (int)this.matrix[i][k];
                     i_max = i;
                 }
-            if (this.matrix[k][i_max] == 0){
+            if (Math.abs(this.matrix[i_max][k]) < 0.001 && k==this.rows-1){
                 return k; // Matrix singular
-            }
-            if (i_max != k){
-                swap_row(k, i_max);
-                System.out.printf("Tukar baris ke-%d dan baris ke-%d\n", (k+1), (i_max+1));
-                displayMatrix();
-            }
-            for (i = k + 1; i < this.cols-1; i++){
-                f = this.matrix[i][k] / this.matrix[k][k];
-                for (j = k + 1; j <= this.cols-1; j++){
-                    this.matrix[i][j] -= this.matrix[k][j] * f;
+            } else if (!(this.cekReadyEselon())){
+                if (i_max != k){
+                    swap_row(k, i_max);
+                    System.out.printf("Tukar baris ke-%d dan baris ke-%d\n", (k+1), (i_max+1));
+                    displayMatrix();
                 }
-                this.matrix[i][k] = 0;
-                System.out.printf("Baris ke-%d dikurangi baris ke-%d dikali %.2f\n", (i+1), (k+1), f);
-                displayMatrix();
+                for (i = k + 1; i < this.cols-1; i++){
+                    bukan0=k;
+                    found=false;
+                    j=k;
+                    while(j<this.cols && !found){
+                        if(Math.abs(this.matrix[k][j])<=0.001){ //hati hati dengan rounding error
+                            j++;
+                        } else {
+                            bukan0=j;
+                            found=true;
+                        }
+                    }
+                    f = this.matrix[i][bukan0] / this.matrix[k][bukan0];
+                    for (j = k + 1; j <= this.cols-1; j++){
+                        this.matrix[i][j] -= this.matrix[k][j] * f;
+                    }
+                    this.matrix[i][k] = 0;
+                    System.out.printf("Baris ke-%d dikurangi baris ke-%d dikali %.2f\n", (i+1), (k+1), f);
+                    displayMatrix();
+                }
             }
         }
         if(tereduksi){
@@ -402,12 +421,12 @@ public class Matrix {
             }
         }
         //sampai sini matrix merupakan matrix segitiga
-        for(i=0;i<this.cols-1;i++){
+        for(i=0;i<this.rows;i++){
             //mencari elemen bukan nol pertama di tiap baris
             bukan0=0;
             found=false;
             j=0;
-            while(j<this.cols-1 && !found){
+            while(j<this.cols && !found){
                 if(Math.abs(this.matrix[i][j])<=0.001){ //hati hati dengan rounding error
                     j++;
                 } else {
@@ -424,8 +443,8 @@ public class Matrix {
                 System.out.printf("Baris ke-%d dibagi dengan %.2f\n", (i+1), (p));
                 displayMatrix();
             }
-            if(!found && i==this.cols-2 ){
-                return this.cols-2; //tidak ada solusi
+            if(bukan0 == this.cols-1 && i==this.rows-1 && !isRowsZero()){
+                return this.rows-1; //tidak ada solusi
             }
         }
         if(isRowsZero()){
