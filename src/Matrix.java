@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.Arrays;
 import java.lang.Math;
 
 public class Matrix {
@@ -508,6 +509,32 @@ public class Matrix {
             }
         }
         return adj ;
+    }
+
+    public Matrix InverseOBE() {
+        Matrix temp = new Matrix(this.rows,this.cols*2);
+        temp.rows = this.rows;
+        temp.cols = this.cols*2;
+        for (int i = 0; i<temp.rows; i++) {
+            for (int j=0; j<temp.cols; j++) {
+                if(j<this.cols){
+                    temp.matrix[i][j] = this.matrix[i][j];
+                }else{
+                    if(i==(j-this.cols)){
+                        temp.matrix[i][j] = 1;
+                    }else {
+                        temp.matrix[i][j] = 0;
+                    }
+                }
+            }
+        }
+        Matrix eselon = temp.convertToEselon(true);
+        double solusi[] = eselon.substitusiBalik();
+        if(!eselon.isUndef()){
+            System.out.println("Penyelesaian persamaan tersebut adalah"); //asumsi solusi tunggal
+            System.out.println(Arrays.toString(solusi));
+        }
+        return temp;
     }
 }
 

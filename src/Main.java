@@ -202,7 +202,8 @@ public class Main {
                 if (mUtama.determinanKofaktor() == 0) {
                     System.out.println("Matriks mempunyai determinan 0, tidak bisa dicari balikannya");
                 } else {
-
+                    mUtama = mUtama.InverseOBE();
+                    mUtama.displayMatrix();
                 }
             } else if (subPilihan == 2) {
                 System.out.print("Masukkan ukuran matriks persegi: ");
