@@ -6,7 +6,7 @@ public class Main {
     public static void pembuka() {
         System.out.println("------------------------------------------------------");
         System.out.println("Selamat datang di program matriks kelompok 21 BONEK");
-        System.out.println("------------------------------------------------------\n");
+        System.out.println("------------------------------------------------------");
     }
 
     public static void menuUtama() {
@@ -202,7 +202,7 @@ public class Main {
         } else if (pilihan == 2) {
             System.out.println("Ketik 1 untuk menggunakan metode OBE");
             System.out.println("Ketik 2 untuk menggunakan metode Kofaktor");
-            System.out.print("Masukkan pilihan anda = ");
+            System.out.print("Masukkan pilihan anda: ");
             subPilihan = sc.nextInt();
             if (subPilihan == 1) {
                 mUtama = inputMatrix();
@@ -327,7 +327,9 @@ public class Main {
                 System.out.println("Jumlah variabel peubah yang ingin dimasukkan :"); //prekondisi n>1
                 Scanner sc6 = new Scanner(System.in);
                 int n = sc6.nextInt();
-                mUtama.rows = n;
+                System.out.println("Jumlah titik yang ingin dimasukkan :");
+                int titik = sc6.nextInt();
+                mUtama.rows = titik;
                 mUtama.cols = n+2;
                 for (a=0;a<mUtama.rows;a++) {
                     mUtama.matrix[a][0] = 1;
@@ -361,7 +363,7 @@ public class Main {
                     total += elemen*solusi[b];
                 }
                 System.out.printf("Hasil taksiran adalah : %.2f", total);
-                System.out.println();
+                System.out.println("-------------------------------------------------------");
             } 
             /*else if (subpilihan==2) { BAGIAN AFAN 
 

@@ -144,10 +144,180 @@ Perlu diperhatikan bahwa tidak semua sistem persamaan linear akan memiliki solus
 Tidak memiliki solusi
 ```
 ### Metode Matriks Balikan
+Dengan metode ini, matriks akan disajikan dalam model *Ax = B* 
+Misal, sebuah sistem persamaan linear terdiri dari empat persamaan di bawah ini
+> a+b-c-d=1;
+> 2a+5b-7c-5d=-2;
+> 2a-b+c+3d=4;
+> 5a+2b-4c+2d=6
+
+Sehingga, untuk menyelesaikan sistem persamaan linear tersebut pengguna 
+harus berinteraksi dengan program. Pengguna akan diminta untuk mengisi matriks A terlebih dahulu, kemudian mengisi matriks B seperti berikut (angka setelah tanda ':' adalah input dari pengguna)
+
+```
+Menggunakan metode matriks balikan, bentuk matriks Ax = B
+Silahkan menginput matriks A:
+Ketik 1 untuk menambah matriks by input user
+Ketik 2 untuk input matriks dari file txt
+Masukkan sub-pilihan anda: 1
+Masukkan baris matriksnya: 4
+Masukkan kolom matriksnya: 4
+Masukkan nilai untuk baris ke-1 kolom ke-1: 1
+Masukkan nilai untuk baris ke-1 kolom ke-2: 1
+Masukkan nilai untuk baris ke-1 kolom ke-3: -1
+Masukkan nilai untuk baris ke-1 kolom ke-4: -1
+Masukkan nilai untuk baris ke-2 kolom ke-1: 2
+Masukkan nilai untuk baris ke-2 kolom ke-2: 5
+Masukkan nilai untuk baris ke-2 kolom ke-3: -7
+Masukkan nilai untuk baris ke-2 kolom ke-4: -5
+Masukkan nilai untuk baris ke-3 kolom ke-1: 2
+Masukkan nilai untuk baris ke-3 kolom ke-2: -1
+Masukkan nilai untuk baris ke-3 kolom ke-3: 1
+Masukkan nilai untuk baris ke-3 kolom ke-4: 3
+Masukkan nilai untuk baris ke-4 kolom ke-1: 5
+Masukkan nilai untuk baris ke-4 kolom ke-2: 2
+Masukkan nilai untuk baris ke-4 kolom ke-3: -4
+Masukkan nilai untuk baris ke-4 kolom ke-4: 2
+Determinan matriks A adalah 0 sehingga tidak bisa menggunakan metode ini karena tidak ada inversnya.
+Akan dikembalikan ke menu utama
+```
+
+Contoh studi kasus yang dipilih memiliki determinan Matriks A yang bernilai 0.
+Dengan demikian, metode balikan matriks tidak dapat digunakan karena Matriks A tidak memiliki invers,<br>
+sehingga pengguna tidak diminta untuk mengisi matriks B.
+
 ### Metode Crammer
+Dengan metode ini, matriks akan disajikan dalam model *Ax = B* 
+Misal, sebuah sistem persamaan linear terdiri dari empat persamaan di bawah 
+ini
+> a+b-c-d=1;
+> 2a+5b-7c-5d=-2;
+> 2a-b+c+3d=4;
+> 5a+2b-4c+2d=6
+
+Sehingga, untuk menyelesaikan sistem persamaan linear tersebut pengguna 
+harus berinteraksi dengan program. Pengguna akan diminta untuk mengisi 
+matriks A terlebih dahulu, kemudian mengisi matriks B seperti berikut 
+(angka setelah tanda ':' adalah input dari pengguna)
+
+```
+Menggunakan metode Cramer, bentuk matriks Ax = B
+Silahkan menginput matriks A:
+Ketik 1 untuk menambah matriks by input user
+Ketik 2 untuk input matriks dari file txt
+Masukkan sub-pilihan anda: 1
+Masukkan baris matriksnya: 4
+Masukkan kolom matriksnya: 5
+Masukkan nilai untuk baris ke-1 kolom ke-1: 1
+Masukkan nilai untuk baris ke-1 kolom ke-2: -1
+Masukkan nilai untuk baris ke-1 kolom ke-3: 0
+Masukkan nilai untuk baris ke-1 kolom ke-4: 0
+Masukkan nilai untuk baris ke-1 kolom ke-5: 1
+Masukkan nilai untuk baris ke-2 kolom ke-1: 1
+Masukkan nilai untuk baris ke-2 kolom ke-2: 1
+Masukkan nilai untuk baris ke-2 kolom ke-3: 0
+Masukkan nilai untuk baris ke-2 kolom ke-4: -3
+Masukkan nilai untuk baris ke-2 kolom ke-5: 0
+Masukkan nilai untuk baris ke-3 kolom ke-1: 2
+Masukkan nilai untuk baris ke-3 kolom ke-2: -1
+Masukkan nilai untuk baris ke-3 kolom ke-3: 0
+Masukkan nilai untuk baris ke-3 kolom ke-4: 1
+Masukkan nilai untuk baris ke-3 kolom ke-5: -1
+Masukkan nilai untuk baris ke-4 kolom ke-1: -1
+Masukkan nilai untuk baris ke-4 kolom ke-2: 2
+Masukkan nilai untuk baris ke-4 kolom ke-3: 0
+Masukkan nilai untuk baris ke-4 kolom ke-4: -2
+Masukkan nilai untuk baris ke-4 kolom ke-5: -1
+Matriks A tidak persegi, tidak bisa menggunakan metode ini.
+Akan dikembalikan ke menu utama
+```
+
+Contoh studi kasus kami menggunakan Matriks A yang tidak berbentuk persegi <br>
+Dengan demikian, metode ini tidak dapat digunakan karena membutuhkan determinan matriks A.
 ## Determinan Matriks
+Apabila dipilih menu 2, maka akan terdapat beberapa pilihan kembali. Masing-masing pilihan berkaitan dengan metode perhitungan determinan yang akan digunakan. <br>
+Syarat dari perhitungan determinan adalah matriks yang dimasukkan harus berupa matriks persegi.
+```
+Ketik 1 untuk menggunakan metode OBE
+Ketik 2 untuk menggunakan metode Kofaktor
+Masukkan pilihan anda: 
+```
+
+Apabila syarat tidak persegi tidak terpenuhi, maka akan terjadi contoh luaran seperti berikut:
+```
+Masukkan baris matriksnya: 1
+Masukkan kolom matriksnya: 3
+Masukkan nilai untuk baris ke-1 kolom ke-1: 1
+Masukkan nilai untuk baris ke-1 kolom ke-2: 2
+Masukkan nilai untuk baris ke-1 kolom ke-3: 3
+Matriks bukan persegi, tidak bisa dicari determinannya
+```
 ### Metode OBE
+Metode perhitungan determinan ini menggunakan operasi baris elementer.
+Matriks akan dioperasikan sehingga berbentuk segitiga atas (elemen matriks bagian bawah diagonal utama merupakan 0 semua).
+Apabila matriks sudah berupa segitiga atas dari awal, maka tidak perlu dioperasikan.
+Setelah menjadi segitiga atas, maka perhitungan determinan cukup dengan mengalikan seluruh elemen pada diagonal utama.
+
+Pengguna akan diminta untuk menginput matriks yang akan dihitung determinannya seperti berikut:
+```
+Masukkan baris matriksnya: 3
+Masukkan kolom matriksnya: 3
+Masukkan nilai untuk baris ke-1 kolom ke-1: 4
+Masukkan nilai untuk baris ke-1 kolom ke-2: 2
+Masukkan nilai untuk baris ke-1 kolom ke-3: 8
+Masukkan nilai untuk baris ke-2 kolom ke-1: 2
+Masukkan nilai untuk baris ke-2 kolom ke-2: 1
+Masukkan nilai untuk baris ke-2 kolom ke-3: 5
+Masukkan nilai untuk baris ke-3 kolom ke-1: 3
+Masukkan nilai untuk baris ke-3 kolom ke-2: 2
+Masukkan nilai untuk baris ke-3 kolom ke-3: 4
+Matrix awal
+4.00 2.00 8.00
+2.00 1.00 5.00
+3.00 2.00 4.00
+Baris ke-2 dikurangi baris ke-1 dikali 0.50
+4.00 2.00 8.00
+0.00 0.00 1.00
+3.00 2.00 4.00
+Baris ke-3 dikurangi baris ke-1 dikali 0.75
+4.00 2.00 8.00
+0.00 0.00 1.00
+0.00 0.50 -2.00
+Tukar baris ke-2 dan baris ke-3
+4.00 2.00 8.00
+0.00 0.50 -2.00
+0.00 0.00 1.00
+Baris ke-3 dikurangi baris ke-2 dikali 0.00
+4.00 2.00 8.00
+0.00 0.50 -2.00
+0.00 0.00 1.00
+Bentuk matriksnya setelah operasi segitiga adalah:
+4.00 2.00 8.00
+0.00 0.50 -2.00
+0.00 0.00 1.00
+Determinan perkalian diagonal utamanya adalah (plus minus bergantung banyaknya operasi swap): -2.0
+```
 ### Metode Kofaktor
+Metode perhitungan determinan ini menggunakan minor dan kofaktor pada matriks tersebut.
+Perhitungan determinan akan menggunakan elemen pada baris pertama yang masing-masing dikalikan dengan kofaktornya.
+Masing - masing kofaktor akan dihitung dengan mencari minornya yang kemudian determinannya akan dihitung pula menggunakan fungsi determinan metode kofaktor itu sendiri (rekursi).
+
+Pengguna akan diminta untuk menginput matriks yang akan dihitung determinannya seperti berikut:
+```
+Masukkan baris matriksnya: 3
+Masukkan kolom matriksnya: 3
+Masukkan nilai untuk baris ke-1 kolom ke-1: 2
+Masukkan nilai untuk baris ke-1 kolom ke-2: 0
+Masukkan nilai untuk baris ke-1 kolom ke-3: 1
+Masukkan nilai untuk baris ke-2 kolom ke-1: 3
+Masukkan nilai untuk baris ke-2 kolom ke-2: 1
+Masukkan nilai untuk baris ke-2 kolom ke-3: 2
+Masukkan nilai untuk baris ke-3 kolom ke-1: 4
+Masukkan nilai untuk baris ke-3 kolom ke-2: 2
+Masukkan nilai untuk baris ke-3 kolom ke-3: 3
+Mencari determinan dengan menggunakan kofaktor pada baris pertama.
+Determinannya adalah: 2.0*-1.0 + 0.0*-1.0 + 1.0*2.0: 0.0
+```
 ## Matrix Balikan
 ### Metode OBE
 ### Metode Adjoint

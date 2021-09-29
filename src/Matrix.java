@@ -22,14 +22,15 @@ public class Matrix {
 
     //METHOD PRIMITIF MATRIKS
     public void readMatrix(int rows, int cols) { //MEMBACA ELEMEN DARI USER, prekondisi rows dan cols lebih kecil dari size yang udah dideclare
-        int i, j,elemen;
+        int i, j;
+        double elemen;
         Scanner sc = new Scanner(System.in);
         this.rows = rows;
         this.cols = cols;
         for (i = 1; i <= rows; i++) {
             for (j = 1; j <= cols; j++) {
                 System.out.print("Masukkan nilai untuk baris ke-" + i + " kolom ke-" + j + ": ");
-                elemen = sc.nextInt();
+                elemen = sc.nextDouble();
                 this.matrix[i - 1][j - 1] = elemen;
             }
         }
