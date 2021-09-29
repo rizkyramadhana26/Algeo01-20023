@@ -186,7 +186,7 @@ Contoh studi kasus yang dipilih memiliki determinan Matriks A yang bernilai 0.
 Dengan demikian, metode balikan matriks tidak dapat digunakan karena Matriks A tidak memiliki invers,<br>
 sehingga pengguna tidak diminta untuk mengisi matriks B.
 
-### Metode Crammer
+### Metode Cramer
 Dengan metode ini, matriks akan disajikan dalam model *Ax = B* 
 Misal, sebuah sistem persamaan linear terdiri dari empat persamaan di bawah 
 ini
