@@ -156,6 +156,7 @@ Pada subprogram ini, akan diterima n buah titik pada bidang dua dimensi (x,y) la
 x|0.1|0.3|0.5|0.7|0.9|1.1|1.3
 -|-|-|-|-|-|-|-
 f(x)|0.003|0.067|0.148|0.248|0.370|0.518|0.697
+
 Maka titik-titik tersebut harus dimasukkan ke dalam program melalui interaksi sebagai berikut
 ```
 Jumlah titik yang ingin dimasukkan :
