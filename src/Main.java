@@ -108,9 +108,13 @@ public class Main {
                 System.out.println("Menggunakan metode matriks balikan, bentuk matriks Ax = B");
                 System.out.println("Silahkan menginput matriks A: ");
                 Matrix mAwal = new Matrix(20,20);
-                mAwal = inputMatrix(true);
+                mAwal = inputMatrix(false);
                 Double detAwal = mAwal.determinanKofaktor();
-                if (detAwal == 0) {
+                if (mAwal.rows != mAwal.cols) {
+                    System.out.println("Matriks A tidak persegi, tidak bisa menggunakan metode ini.");
+                    System.out.println("Akan dikembalikan ke menu utama");
+                }
+                else if (detAwal == 0) {
                     System.out.println("Determinan matriks A adalah 0 sehingga tidak bisa menggunakan metode ini karena tidak ada inversnya.");
                     System.out.println("Akan dikembalikan ke menu utama");
                 }
@@ -136,7 +140,7 @@ public class Main {
                     kali.displayMatrix();
                     System.out.println("Sehingga solusi dari paling atas adalah");
                     for (i=0; i < kali.rows; i++){
-                        System.out.printf("X%d adalah %.2f", (i+1), kali.matrix[i][0]);
+                        System.out.printf("X%d adalah %f", (i+1), kali.matrix[i][0]);
                         System.out.println();
                     }
                 }
@@ -144,9 +148,13 @@ public class Main {
                 System.out.println("Menggunakan metode Cramer, bentuk matriks Ax = B");
                 System.out.println("Silahkan menginput matriks A: ");
                 Matrix mAwal = new Matrix(20,20);
-                mAwal = inputMatrix(true);
+                mAwal = inputMatrix(false);
                 Double detAwal = mAwal.determinanKofaktor();
-                if (detAwal == 0) {
+                if (mAwal.rows != mAwal.cols) {
+                    System.out.println("Matriks A tidak persegi, tidak bisa menggunakan metode ini.");
+                    System.out.println("Akan dikembalikan ke menu utama");
+                }
+                else if (detAwal == 0) {
                     System.out.println("Determinan matriks A adalah 0 sehingga tidak bisa menggunakan metode ini karena solusinya banyak / tidak ada solusi.");
                     System.out.println("Akan dikembalikan ke menu utama");
                 }
@@ -309,7 +317,7 @@ public class Main {
                 for(i=0;i<n;i++){
                     y_interpolasi+=solusi[i]*Math.pow(x_interpolasi,i);
                 }
-                System.out.printf("Hasil interpolasi adalah : %.2f", y_interpolasi);
+                System.out.printf("Hasil interpolasi adalah : %f", y_interpolasi);
                 System.out.println();
             }
             /*else if (subpilihan==2) { BAGIAN AFAN 
@@ -364,7 +372,7 @@ public class Main {
                     elemen = sc.nextDouble();
                     total += elemen*solusi[b];
                 }
-                System.out.printf("Hasil taksiran adalah : %.2f \n", total);
+                System.out.printf("Hasil taksiran adalah : %f \n", total);
                 System.out.println("-------------------------------------------------------");
             } 
             /*else if (subpilihan==2) { BAGIAN AFAN 
