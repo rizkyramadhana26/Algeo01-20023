@@ -510,7 +510,6 @@ Lalu program akan menyusun semua titik tersebut menjadi sebuah matriks augmented
 for Multiple Linear Regression*.
 ```
 Matrix awal
-Matrix awal
 20.000000 863.100000 1530.400000 587.840000 19.420000
 863.100000 54876.890000 67000.090000 25283.395000 779.477000
 1530.400000 67000.090000 117912.320000 44976.867000 1483.437000
