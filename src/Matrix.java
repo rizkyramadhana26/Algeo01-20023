@@ -275,13 +275,18 @@ public class Matrix {
     }
 
     public double getKofaktor(int i, int j) {//ngembaliin kofaktornya, udah sesuai tanda
-        Matrix mOutput = new Matrix(this.rows-1,this.cols-1);
-        mOutput = this.getMinor(i,j);
-        if ((i + j) % 2 ==0) {
-            return mOutput.determinanKofaktor();
+        if (this.rows ==1 && this.cols==1) {
+            return 1;
         }
         else {
-            return mOutput.determinanKofaktor()*-1;
+            Matrix mOutput = new Matrix(this.rows-1,this.cols-1);
+            mOutput = this.getMinor(i,j);
+            if ((i + j) % 2 ==0) {
+                return mOutput.determinanKofaktor();
+            }
+            else {
+                return mOutput.determinanKofaktor()*-1;
+            }
         }
     }
 
