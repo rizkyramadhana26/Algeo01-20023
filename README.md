@@ -378,6 +378,7 @@ Matriks invers adalah:
 ### Metode Adjoint
 Metode ini berdasarkan pada rumus:
 > A^-1 = 1/det(A) * adj(A)
+
 dengan adj(A) adalah matriks adjoint yang merupakan transpose dari matriks kofaktor.
 
 Misal kita mempunyai matriks <br>
