@@ -40,7 +40,7 @@ public class Matrix {
         int i, j;
         for (i = 0; i < this.rows; i++) {
             for (j = 0; j < this.cols; j++) {
-                System.out.printf("%.2f ", this.matrix[i][j]);
+                System.out.printf("%f ", this.matrix[i][j]);
             }
             System.out.println();
         }
@@ -179,7 +179,7 @@ public class Matrix {
                     this.matrix[i][j] -= this.matrix[k][j] * faktor;
                 }
                 this.matrix[i][k] = 0;
-                System.out.printf("Baris ke-%d dikurangi baris ke-%d dikali %.2f\n", (i+1), (k+1), faktor);
+                System.out.printf("Baris ke-%d dikurangi baris ke-%d dikali %f\n", (i+1), (k+1), faktor);
                 displayMatrix();
             }
         }
@@ -365,6 +365,8 @@ public class Matrix {
                 System.out.print("Tidak memiliki solusi\n");
             } else {
                 System.out.print("Memiliki tak hingga solusi\n");
+                mOutput.forwardElim(true); //lanjutkan eliminasi sampai menjadi eselon baris tereduksi untuk memudahkan
+                mOutput.solusiTakHingga();
             }
             Matrix undef = new Matrix(1,1);
             undef.matrix[0][0]=-999;
@@ -417,7 +419,7 @@ public class Matrix {
                         this.matrix[i][j] -= this.matrix[k][j] * f;
                     }
                     this.matrix[i][k] = 0;
-                    System.out.printf("Baris ke-%d dikurangi baris ke-%d dikali %.2f\n", (i+1), (k+1), f);
+                    System.out.printf("Baris ke-%d dikurangi baris ke-%d dikali %f\n", (i+1), (k+1), f);
                     displayMatrix();
                 }
             }
@@ -450,12 +452,12 @@ public class Matrix {
                     System.out.println("baris ke"+(i+1) + "" + bukan0);
                     for(k=0;k<i;k++){
                         f = this.matrix[k][bukan0] / this.matrix[i][bukan0]; 
-                        System.out.println(f);
+                        //System.out.println(f);
                         for(int l=0;l<this.cols;l++){
                             this.matrix[k][l] = this.matrix[k][l] - this.matrix[i][l]*f;
                         }
                         this.matrix[k][bukan0]=0;
-                        System.out.printf("Baris ke-%d dikurangi baris ke-%d dikali %.2f\n", (k+1), (i+1), f);
+                        System.out.printf("Baris ke-%d dikurangi baris ke-%d dikali %f\n", (k+1), (i+1), f);
                         displayMatrix();    
                     }
                 }
@@ -481,7 +483,7 @@ public class Matrix {
                 for(k=0;k<this.cols;k++){
                     this.matrix[i][k]/=p;
                 }
-                System.out.printf("Baris ke-%d dibagi dengan %.2f\n", (i+1), (p));
+                System.out.printf("Baris ke-%d dibagi dengan %f\n", (i+1), (p));
                 displayMatrix();
             }
             if(bukan0 == this.cols-1 && i==this.rows-1 && !isRowsZero()){
@@ -576,22 +578,7 @@ public class Matrix {
             }
         }
         Matrix eselon = temp.convertToEselon(true);
-        Matrix kiri = eselon.copyMatrix();
-        kiri.cols /= 2;
-        if (kiri.isIdentity()) {
-            System.out.println("Matriks hasil inversnya adalah: ");
-            for (i = 0; i<eselon.rows; i++) {
-                for (j= eselon.cols/2; j<eselon.cols; j++) {
-                    System.out.printf("%.2f ", eselon.matrix[i][j]);
-                }
-                System.out.println();
-            }            
-        }
-        else {
-            System.out.println("Matriks sebelah kiri gagal dijadikan matriks identitas. ");
-            System.out.println("Tidak bisa mendapatkan inversnya. ");
-        }
-        return temp;
+        return eselon;
     }
 
     public boolean isIdentity() {
@@ -612,6 +599,46 @@ public class Matrix {
             }
         }
         return identitas;
+    }
+
+    public void solusiTakHingga(){
+        int bukan0, j, i, k;
+        boolean found, semua0;
+        boolean[] bebas;
+        bebas = new boolean[this.cols-1];
+        Arrays.fill(bebas,true);
+        for(i=0;i<this.rows;i++){
+            //mencari elemen bukan nol pertama di tiap baris
+            bukan0=0;
+            found=false;
+            j=0;
+            while(j<this.cols && !found){
+                if(Math.abs(this.matrix[i][j])<=0.001){ //hati hati dengan rounding error
+                    j++;
+                } else {
+                    bukan0=j;
+                    found=true;
+                }
+            }
+            if(found){
+                bebas[bukan0]=false;
+                System.out.print("x"+(bukan0+1)+" = "+this.matrix[i][this.cols-1]);
+                for(k=bukan0+1;k<this.cols-1;k++){
+                    double nilai = this.matrix[i][k];
+                    if(Math.abs(nilai)>0.001 && nilai>0){
+                        System.out.print("- "+nilai+"*x"+(k+1));
+                    } else if(Math.abs(nilai)>0.001 && nilai<0){
+                        System.out.print(" + "+(-1*nilai)+"*x"+(k+1));
+                    }
+                }
+                System.out.println("");
+            }
+        }
+        for(i=0;i<this.cols-1;i++){
+            if(bebas[i]){
+                System.out.println("x"+(i+1)+" bebas");
+            }
+        }
     }
 }
 
