@@ -19,13 +19,13 @@ class driverbebas {
     //System.out.println(m1.determinanOBE());
     //System.out.println("Yang asli: ");
     //m1.displayMatrix();
-    Matrix m1 = new Matrix(4,6);
-    m1.readMatrix(4,6);
+    Matrix m1 = new Matrix(3,7);
+    m1.readMatrix(3,7);
     System.out.println(m1.cekReadyEselon());
     Matrix mProses = m1.extendMatrix(m1.cols-1>m1.rows ? m1.cols-1-m1.rows : 0,0);
     Matrix eselon = mProses.convertToEselon(false);
-    double solusi[] = eselon.substitusiBalik();
     if(!eselon.isUndef()){
+      double solusi[] = eselon.substitusiBalik();
       System.out.println("Penyelesaian persamaan tersebut adalah"); //asumsi solusi tunggal
       System.out.println(Arrays.toString(solusi));
     }

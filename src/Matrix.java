@@ -365,6 +365,8 @@ public class Matrix {
                 System.out.print("Tidak memiliki solusi\n");
             } else {
                 System.out.print("Memiliki tak hingga solusi\n");
+                mOutput.forwardElim(true); //lanjutkan eliminasi sampai menjadi eselon baris tereduksi untuk memudahkan
+                mOutput.solusiTakHingga();
             }
             Matrix undef = new Matrix(1,1);
             undef.matrix[0][0]=-999;
@@ -450,7 +452,7 @@ public class Matrix {
                     System.out.println("baris ke"+(i+1) + "" + bukan0);
                     for(k=0;k<i;k++){
                         f = this.matrix[k][bukan0] / this.matrix[i][bukan0]; 
-                        System.out.println(f);
+                        //System.out.println(f);
                         for(int l=0;l<this.cols;l++){
                             this.matrix[k][l] = this.matrix[k][l] - this.matrix[i][l]*f;
                         }
@@ -597,6 +599,46 @@ public class Matrix {
             }
         }
         return identitas;
+    }
+
+    public void solusiTakHingga(){
+        int bukan0, j, i, k;
+        boolean found, semua0;
+        boolean[] bebas;
+        bebas = new boolean[this.cols-1];
+        Arrays.fill(bebas,true);
+        for(i=0;i<this.rows;i++){
+            //mencari elemen bukan nol pertama di tiap baris
+            bukan0=0;
+            found=false;
+            j=0;
+            while(j<this.cols && !found){
+                if(Math.abs(this.matrix[i][j])<=0.001){ //hati hati dengan rounding error
+                    j++;
+                } else {
+                    bukan0=j;
+                    found=true;
+                }
+            }
+            if(found){
+                bebas[bukan0]=false;
+                System.out.print("x"+(bukan0+1)+" = "+this.matrix[i][this.cols-1]);
+                for(k=bukan0+1;k<this.cols-1;k++){
+                    double nilai = this.matrix[i][k];
+                    if(Math.abs(nilai)>0.001 && nilai>0){
+                        System.out.print("- "+nilai+"*x"+(k+1));
+                    } else if(Math.abs(nilai)>0.001 && nilai<0){
+                        System.out.print(" + "+(-1*nilai)+"*x"+(k+1));
+                    }
+                }
+                System.out.println("");
+            }
+        }
+        for(i=0;i<this.cols-1;i++){
+            if(bebas[i]){
+                System.out.println("x"+(i+1)+" bebas");
+            }
+        }
     }
 }
 
