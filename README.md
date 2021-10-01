@@ -609,3 +609,24 @@ Masukkan nilai dari X3: 29.3
 Hasil taksiran adalah : 0.938434 
 ```
 
+# Input Output
+## Input
+Input matriks ke program dapat melalui CLI (masukan dari keyboard) dan juga file txt. User dapat memilih metode input matriks saat memilih salah satu operasi dan metode seperti berikut:
+```
+Ketik 1 untuk menambah matriks by input user
+Ketik 2 untuk input matriks dari file txt
+Masukkan sub-pilihan anda: 
+```
+Masukan melalui CLI seperti pada contoh-contoh sebelumnya. 
+Bila user memilih untuk input matriks (2) melalui suatu file txt, maka user diberi prompt file .txt manakah yang dipakai yang terletak di /test
+```
+Masukkan nama file pada folder test tanpa '.txt':
+```
+Selanjutnya, operasi pada matriks-matriks berjalan seperti biasanya.
+## Output
+Saat setiap metode memberi output seperti yang ada pada contoh-contoh sebelumnya, user juga diberi pilihan untuk menyimpan hasil tersebut pada suatu file txt yang terletak pada /test.
+```
+Ketik 1 untuk menyimpan hasil di file txt atau 0 bila tidak: 1
+Masukkan nama file simpanan pada folder test tanpa '.txt':
+```
+Ketika user memasukkan nama file, maka terbentuk file (atau bila file sudah ada di-overwrite) pada /test dengan output yang menyesuaikan setiap operasinya.
