@@ -430,7 +430,7 @@ public class Matrix {
         for (k = 0; k < this.rows-1; k++){
             i_max = k;
             v_max = (int)this.matrix[i_max][k];
-            for (i = k + 1; i < this.rows-1; i++)
+            for (i = k + 1; i < this.rows; i++)
                 if (Math.abs(this.matrix[i][k]) > v_max){
                     v_max = (int)this.matrix[i][k];
                     i_max = i;
