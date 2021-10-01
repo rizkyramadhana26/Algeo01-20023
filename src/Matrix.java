@@ -1,6 +1,12 @@
 import java.util.Scanner;
 import java.util.Arrays;
 import java.lang.Math;
+import java.io.BufferedReader;
+// import java.io.BufferedWriter;
+import java.io.FileReader;
+// import java.io.FileWriter;
+// import java.io.PrintWriter;
+import java.io.FileNotFoundException;
 
 public class Matrix {
     //ATRIBUT
@@ -35,6 +41,36 @@ public class Matrix {
             }
         }
     }
+
+    public void openMatrix(String name) {   // baca dari ../test/'name'.txt
+        int i,j;
+        try {
+            Scanner check_rowcol = new Scanner(new BufferedReader(new FileReader("../test/" + name + ".txt")));
+            Scanner matrixfile = new Scanner(new BufferedReader(new FileReader("../test/" + name + ".txt")));
+            while(check_rowcol.hasNextLine()){
+                if (this.rows == 0) {
+                    this.cols = (check_rowcol.nextLine().trim().split(" ")).length;
+                } else {
+                    check_rowcol.nextLine();
+                }
+                this.rows += 1;
+            } 
+            this.matrix = new double[rows][cols];
+            while(matrixfile.hasNextLine()) {
+                for (i=0; i < this.rows; i++) {
+                   String[] oneRow = matrixfile.nextLine().trim().split(" ");
+                   for (j=0; j < oneRow.length; j++) {
+                      this.matrix[i][j] = Double.parseDouble(oneRow[j]);
+                   }
+                }
+            }
+        } catch (FileNotFoundException e) {
+            this.rows = 0;
+            this.cols = 0;
+            System.out.println("File tersebut tidak ditemukan di folder 'test'.");
+        }
+    }
+
 
     public void displayMatrix() { // UNTUK MENCETAK MATRIKSNYA
         int i, j;

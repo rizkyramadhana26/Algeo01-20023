@@ -156,10 +156,10 @@ harus berinteraksi dengan program. Pengguna akan diminta untuk mengisi matriks A
 
 ```
 Menggunakan metode matriks balikan, bentuk matriks Ax = B
-Silahkan menginput matriks A:
 Ketik 1 untuk menambah matriks by input user
 Ketik 2 untuk input matriks dari file txt
 Masukkan sub-pilihan anda: 1
+Silahkan menginput matriks A:
 Masukkan baris matriksnya: 4
 Masukkan kolom matriksnya: 4
 Masukkan nilai untuk baris ke-1 kolom ke-1: 1
@@ -202,10 +202,10 @@ matriks A terlebih dahulu, kemudian mengisi matriks B seperti berikut
 
 ```
 Menggunakan metode Cramer, bentuk matriks Ax = B
-Silahkan menginput matriks A:
 Ketik 1 untuk menambah matriks by input user
 Ketik 2 untuk input matriks dari file txt
 Masukkan sub-pilihan anda: 1
+Silahkan menginput matriks A:
 Masukkan baris matriksnya: 4
 Masukkan kolom matriksnya: 5
 Masukkan nilai untuk baris ke-1 kolom ke-1: 1
