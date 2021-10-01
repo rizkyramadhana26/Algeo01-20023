@@ -4,8 +4,9 @@ import java.lang.Math;
 import java.io.BufferedReader;
 // import java.io.BufferedWriter;
 import java.io.FileReader;
-// import java.io.FileWriter;
-// import java.io.PrintWriter;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.io.IOException;
 import java.io.FileNotFoundException;
 
 public class Matrix {
@@ -404,6 +405,22 @@ public class Matrix {
             //System.out.println("Matrix singular");
             if (mOutput.matrix[singular_flag][this.cols-1] != 0){
                 System.out.print("Tidak memiliki solusi\n");
+                System.out.print("Ketik 1 untuk menyimpan hasil di file txt atau 0 bila tidak: ");
+                Scanner sc = new Scanner(System.in);
+                int opt = sc.nextInt();
+                if (opt == 1) {
+                    System.out.print("Masukkan nama file simpanan pada folder test tanpa '.txt': ");
+                    String name = sc.next();
+                    try {
+                        FileWriter fileWriter = new FileWriter("../test/" + name + ".txt");
+                        PrintWriter printWriter = new PrintWriter(fileWriter);
+                        printWriter.print("SPL tidak memiliki solusi.");
+                        printWriter.close();
+                    } catch (IOException e) {
+                        System.out.print("File tidak dapat disimpan pada folder 'test'. ");
+                    }
+                }
+                
             } else {
                 System.out.print("Memiliki tak hingga solusi\n");
                 mOutput.forwardElim(true); //lanjutkan eliminasi sampai menjadi eselon baris tereduksi untuk memudahkan
@@ -635,36 +652,95 @@ public class Matrix {
         boolean[] bebas;
         bebas = new boolean[this.cols-1];
         Arrays.fill(bebas,true);
-        for(i=0;i<this.rows;i++){
-            //mencari elemen bukan nol pertama di tiap baris
-            bukan0=0;
-            found=false;
-            j=0;
-            while(j<this.cols && !found){
-                if(Math.abs(this.matrix[i][j])<=0.001){ //hati hati dengan rounding error
-                    j++;
-                } else {
-                    bukan0=j;
-                    found=true;
-                }
-            }
-            if(found){
-                bebas[bukan0]=false;
-                System.out.print("x"+(bukan0+1)+" = "+this.matrix[i][this.cols-1]);
-                for(k=bukan0+1;k<this.cols-1;k++){
-                    double nilai = this.matrix[i][k];
-                    if(Math.abs(nilai)>0.001 && nilai>0){
-                        System.out.print("- "+nilai+"*"+(char)(64+k+1));
-                    } else if(Math.abs(nilai)>0.001 && nilai<0){
-                        System.out.print(" + "+(-1*nilai)+"*"+(char)(64+k+1));
+
+        System.out.print("SPL memiliki banyak solusi:\n");
+        System.out.print("Ketik 1 untuk menyimpan hasil di file txt atau 0 bila tidak: ");
+        Scanner sc = new Scanner(System.in);
+        int opt = sc.nextInt();
+
+        if (opt == 1) {
+            System.out.print("Masukkan nama file simpanan pada folder test tanpa '.txt': ");
+            String name = sc.next();
+            try {
+                FileWriter fileWriter = new FileWriter("../test/" + name + ".txt");
+                PrintWriter printWriter = new PrintWriter(fileWriter);
+                printWriter.print("SPL memiliki banyak solusi:\n");
+
+                for(i=0;i<this.rows;i++){
+                    //mencari elemen bukan nol pertama di tiap baris
+                    bukan0=0;
+                    found=false;
+                    j=0;
+        
+                    while(j<this.cols && !found){
+                        if(Math.abs(this.matrix[i][j])<=0.001){ //hati hati dengan rounding error
+                            j++;
+                        } else {
+                            bukan0=j;
+                            found=true;
+                        }
+                    }
+                    if(found){
+                        bebas[bukan0]=false;
+                        System.out.print("x"+(bukan0+1)+" = "+this.matrix[i][this.cols-1]);
+                        printWriter.printf("x"+(bukan0+1)+" = "+this.matrix[i][this.cols-1]);
+                        for(k=bukan0+1;k<this.cols-1;k++){
+                            double nilai = this.matrix[i][k];
+                            if(Math.abs(nilai)>0.001 && nilai>0){
+                                System.out.print("- "+nilai+"*"+(char)(64+k+1));
+                                printWriter.print("- "+nilai+"*"+(char)(64+k+1)+"\n");
+                            } else if(Math.abs(nilai)>0.001 && nilai<0){
+                                System.out.print(" + "+(-1*nilai)+"*"+(char)(64+k+1));
+                                printWriter.print(" + "+(-1*nilai)+"*"+(char)(64+k+1)+"\n");
+                            }
+                        }
+                        System.out.println("");
                     }
                 }
-                System.out.println("");
+                for(i=0;i<this.cols-1;i++){
+                    if(bebas[i]){
+                        System.out.println("x"+(i+1)+" = "+(char)(64+i+1));
+                        printWriter.printf("x"+(i+1)+" = "+(char)(64+i+1)+"\n");
+                    }
+                }
+                printWriter.close();
+
+            } catch (IOException e) {
+                System.out.print("File tidak dapat disimpan pada folder 'test'. ");
             }
-        }
-        for(i=0;i<this.cols-1;i++){
-            if(bebas[i]){
-                System.out.println("x"+(i+1)+" = "+(char)(64+i+1));
+        } else {
+            for(i=0;i<this.rows;i++){
+                //mencari elemen bukan nol pertama di tiap baris
+                bukan0=0;
+                found=false;
+                j=0;
+
+                while(j<this.cols && !found){
+                    if(Math.abs(this.matrix[i][j])<=0.001){ //hati hati dengan rounding error
+                        j++;
+                    } else {
+                        bukan0=j;
+                        found=true;
+                    }
+                }
+                if(found){
+                    bebas[bukan0]=false;
+                    System.out.print("x"+(bukan0+1)+" = "+this.matrix[i][this.cols-1]);
+                    for(k=bukan0+1;k<this.cols-1;k++){
+                        double nilai = this.matrix[i][k];
+                        if(Math.abs(nilai)>0.001 && nilai>0){
+                            System.out.print("- "+nilai+"*"+(char)(64+k+1));
+                        } else if(Math.abs(nilai)>0.001 && nilai<0){
+                            System.out.print(" + "+(-1*nilai)+"*"+(char)(64+k+1));
+                        }
+                    }
+                    System.out.println("");
+                }
+            }
+            for(i=0;i<this.cols-1;i++){
+                if(bebas[i]){
+                    System.out.println("x"+(i+1)+" = "+(char)(64+i+1));
+                }
             }
         }
     }

@@ -1,6 +1,9 @@
 import java.util.Scanner;
 import java.util.Arrays;
 import java.lang.Math;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.io.IOException;
 
 public class Main {
     public static void pembuka() {
@@ -109,6 +112,23 @@ public class Main {
                 if(!eselon.isUndef()){
                     System.out.println("Penyelesaian persamaan tersebut adalah"); //asumsi solusi tunggal
                     System.out.println(Arrays.toString(solusi));
+                    System.out.print("Ketik 1 untuk menyimpan hasil di file txt atau 0 bila tidak: ");
+                    int opt = sc.nextInt();
+                    if (opt == 1) {
+                        System.out.print("Masukkan nama file simpanan pada folder test tanpa '.txt': ");
+                        String name = sc.next();
+                        try {
+                            FileWriter fileWriter = new FileWriter("../test/" + name + ".txt");
+                            PrintWriter printWriter = new PrintWriter(fileWriter);
+                            printWriter.print("SPL memiliki tepat 1 solusi:\n");
+                            for (i=0;i<(eselon.cols-1); i++) {
+                                printWriter.printf("x%d = %f\n",i,solusi[i]);
+                            }
+                            printWriter.close();
+                        } catch (IOException e) {
+                            System.out.print("File tidak dapat disimpan pada folder 'test'. ");
+                        }
+                    }
                 }
             } else if(metode==2){
                 Matrix mAwal = new Matrix(0,0);
@@ -127,6 +147,23 @@ public class Main {
                 if(!eselon.isUndef()){
                     System.out.println("Penyelesaian persamaan tersebut adalah"); //asumsi solusi tunggal
                     System.out.println(Arrays.toString(solusi));
+                    System.out.print("Ketik 1 untuk menyimpan hasil di file txt atau 0 bila tidak: ");
+                    int opt = sc.nextInt();
+                    if (opt == 1) {
+                        System.out.print("Masukkan nama file simpanan pada folder test tanpa '.txt': ");
+                        String name = sc.next();
+                        try {
+                            FileWriter fileWriter = new FileWriter("../test/" + name + ".txt");
+                            PrintWriter printWriter = new PrintWriter(fileWriter);
+                            printWriter.print("SPL memiliki tepat 1 solusi:\n");
+                            for (i=0;i<(eselon.cols-1); i++) {
+                                printWriter.printf("x%d = %f\n",i,solusi[i]);
+                            }
+                            printWriter.close();
+                        } catch (IOException e) {
+                            System.out.print("File tidak dapat disimpan pada folder 'test'. ");
+                        }
+                    }
                 }
             } else if(metode==3){
                 System.out.println("Menggunakan metode matriks balikan, bentuk matriks Ax = B");                
@@ -184,6 +221,23 @@ public class Main {
                     for (i=0; i < kali.rows; i++){
                         System.out.printf("X%d adalah %f", (i+1), kali.matrix[i][0]);
                         System.out.println();
+                    }
+                    System.out.print("Ketik 1 untuk menyimpan hasil di file txt atau 0 bila tidak: ");
+                    int opt = sc.nextInt();
+                    if (opt == 1) {
+                        System.out.print("Masukkan nama file simpanan pada folder test tanpa '.txt': ");
+                        String name = sc.next();
+                        try {
+                            FileWriter fileWriter = new FileWriter("../test/" + name + ".txt");
+                            PrintWriter printWriter = new PrintWriter(fileWriter);
+                            printWriter.print("SPL memiliki solusi:\n");
+                            for (i=0; i < kali.rows; i++) {
+                                printWriter.printf("x%d = %f\n",i, kali.matrix[i][0]);
+                            }
+                            printWriter.close();
+                        } catch (IOException e) {
+                            System.out.print("File tidak dapat disimpan pada folder 'test'. ");
+                        }
                     }
                 }
             } else if(metode==4){
@@ -258,6 +312,35 @@ public class Main {
                             B.matrix[k][0] = elemen;
                         }
                     }
+
+                    System.out.print("Ketik 1 untuk menyimpan hasil di file txt atau 0 bila tidak: ");
+                    int opt = sc.nextInt();
+                    if (opt == 1) {
+                        System.out.print("Masukkan nama file simpanan pada folder test tanpa '.txt': ");
+                        String name = sc.next();
+                        try {
+                            FileWriter fileWriter = new FileWriter("../test/" + name + ".txt");
+                            PrintWriter printWriter = new PrintWriter(fileWriter);
+                            printWriter.print("SPL memiliki solusi:\n");
+                            for (saul=0;saul<mAwal.cols;saul++) {
+                                for (k=0;k<B.rows;k++){// UNTUK NGESWITCHNYA
+                                   elemen = mAwal.matrix[k][saul] ;
+                                   mAwal.matrix[k][saul] = B.matrix[k][0];
+                                   B.matrix[k][0] = elemen;
+                                }
+                                Double detAkhir = mAwal.determinanKofaktor();
+                                printWriter.printf("x%d = %f\n",saul+1,detAkhir/detAwal);
+                                for (k=0;k<B.rows;k++){// UNTUK NGESWITCH KEMBALI BIAR NORMAL
+                                    elemen = mAwal.matrix[k][saul] ;
+                                    mAwal.matrix[k][saul] = B.matrix[k][0];
+                                    B.matrix[k][0] = elemen;
+                                }
+                            }
+                            printWriter.close();
+                        } catch (IOException e) {
+                            System.out.print("File tidak dapat disimpan pada folder 'test'. ");
+                        }
+                    }
                 }
             }
             else {
@@ -283,6 +366,21 @@ public class Main {
                 }
                 
                 System.out.println("Determinan perkalian diagonal utamanya adalah (plus minus bergantung banyaknya operasi swap): " +mAwal.determinanOBE());
+                
+                System.out.print("Ketik 1 untuk menyimpan hasil di file txt atau 0 bila tidak: ");
+                int opt = sc.nextInt();
+                if (opt == 1) {
+                    System.out.print("Masukkan nama file simpanan pada folder test tanpa '.txt': ");
+                    String name = sc.next();
+                    try {
+                        FileWriter fileWriter = new FileWriter("../test/" + name + ".txt");
+                        PrintWriter printWriter = new PrintWriter(fileWriter);
+                        printWriter.printf("Determinan matriks = %f",mAwal.determinanOBE());
+                        printWriter.close();
+                    } catch (IOException e) {
+                        System.out.print("File tidak dapat disimpan pada folder 'test'. ");
+                    }
+                }
             } 
             else if (subPilihan == 2) {
                 Matrix mAwal = new Matrix(0,0);
@@ -307,6 +405,21 @@ public class Main {
                 }
                 System.out.print(": ");
                 System.out.println(mAwal.determinanKofaktor());
+
+                System.out.print("Ketik 1 untuk menyimpan hasil di file txt atau 0 bila tidak: ");
+                int opt = sc.nextInt();
+                if (opt == 1) {
+                    System.out.print("Masukkan nama file simpanan pada folder test tanpa '.txt': ");
+                    String name = sc.next();
+                    try {
+                        FileWriter fileWriter = new FileWriter("../test/" + name + ".txt");
+                        PrintWriter printWriter = new PrintWriter(fileWriter);
+                        printWriter.printf("Determinan matriks = %f", mAwal.determinanKofaktor());
+                        printWriter.close();
+                    } catch (IOException e) {
+                        System.out.print("File tidak dapat disimpan pada folder 'test'. ");
+                    }
+                }
             }
             else {
                 System.out.println("Subpilihan tidak sesuai, dikembalikan ke menu utama");
@@ -346,6 +459,28 @@ public class Main {
                         }    
                     System.out.println("Matriks invers adalah: ");        
                     kiri.displayMatrix();
+
+                    System.out.print("Ketik 1 untuk menyimpan hasil di file txt atau 0 bila tidak: ");
+                    int opt = sc.nextInt();
+                    if (opt == 1) {
+                        System.out.print("Masukkan nama file simpanan pada folder test tanpa '.txt': ");
+                        String name = sc.next();
+                        try {
+                            FileWriter fileWriter = new FileWriter("../test/" + name + ".txt");
+                            PrintWriter printWriter = new PrintWriter(fileWriter);
+                            printWriter.print("Matriks invers:\n");
+                            for (i=0;i<kiri.rows;i++) {
+                                for (j=0;j<kiri.cols;j++) {
+                                    printWriter.printf("%f ",kiri.matrix[i][j]);
+                                }
+                                printWriter.print("\n");
+                            }
+                            printWriter.close();
+                        } catch (IOException e) {
+                            System.out.print("File tidak dapat disimpan pada folder 'test'. ");
+                        }
+                    }
+
                     }
                     else {
                         System.out.println("Matriks sebelah kiri gagal dijadikan matriks identitas. ");
@@ -369,6 +504,28 @@ public class Main {
                     mAwal = mAwal.InverseKofaktor();  // MEMANGGIL FUNGSI Inverse metode kofaktor
                     System.out.println("Matriks inverse adalah:");
                     mAwal.displayMatrix();
+
+                    System.out.print("Ketik 1 untuk menyimpan hasil di file txt atau 0 bila tidak: ");
+                    int opt = sc.nextInt();
+                    if (opt == 1) {
+                        System.out.print("Masukkan nama file simpanan pada folder test tanpa '.txt': ");
+                        String name = sc.next();
+                        try {
+                            FileWriter fileWriter = new FileWriter("../test/" + name + ".txt");
+                            PrintWriter printWriter = new PrintWriter(fileWriter);
+                            printWriter.print("Matriks invers:\n");
+                            int j;
+                            for (i=0;i<mAwal.rows;i++) {
+                                for (j=0;j<mAwal.cols;j++) {
+                                    printWriter.printf("%f ",mAwal.matrix[i][j]);
+                                }
+                                printWriter.print("\n");
+                            }
+                            printWriter.close();
+                        } catch (IOException e) {
+                            System.out.print("File tidak dapat disimpan pada folder 'test'. ");
+                        }
+                    }
                 }
             } else {
                 System.out.println("Subpilihan tidak sesuai, dikembalikan ke menu utama");
@@ -432,6 +589,34 @@ public class Main {
             }
             System.out.printf("Hasil interpolasi adalah : %f", y_interpolasi);
             System.out.println();
+
+            System.out.print("Ketik 1 untuk menyimpan hasil di file txt atau 0 bila tidak: ");
+            int opt = sc.nextInt();
+            if (opt == 1) {
+                System.out.print("Masukkan nama file simpanan pada folder test tanpa '.txt': ");
+                String name = sc.next();
+                try {
+                    FileWriter fileWriter = new FileWriter("../test/" + name + ".txt");
+                    PrintWriter printWriter = new PrintWriter(fileWriter);
+                    printWriter.print("Persamaan polinom:\n");
+                    printWriter.print("y = ");
+                    for (i=0;i<(eselon.cols-1);i++) {
+                        if (i == 0) {
+                            printWriter.printf("%f",solusi[i]);
+                        } else if (i == 1) {
+                            printWriter.printf(" + %fx",solusi[i]);
+                        } else {
+                            printWriter.printf(" + %fx^%d",solusi[i],i);
+                        }
+                    }
+                    printWriter.printf("\n\n");
+                    printWriter.printf("Hasil taksiran adalah %f\n",y_interpolasi);
+
+                    printWriter.close();
+                } catch (IOException e) {
+                    System.out.print("File tidak dapat disimpan pada folder 'test'. ");
+                }
+            }
 
             menuUtama();
             pilihmenu();
@@ -508,6 +693,32 @@ public class Main {
             }
             System.out.printf("Hasil taksiran adalah : %f \n", total);
             System.out.println("-------------------------------------------------------");
+
+            System.out.print("Ketik 1 untuk menyimpan hasil di file txt atau 0 bila tidak: ");
+            int opt = sc.nextInt();
+            if (opt == 1) {
+                System.out.print("Masukkan nama file simpanan pada folder test tanpa '.txt': ");
+                String name = sc.next();
+                try {
+                    FileWriter fileWriter = new FileWriter("../test/" + name + ".txt");
+                    PrintWriter printWriter = new PrintWriter(fileWriter);
+                    printWriter.print("Persamaan polinom:\n");
+                    printWriter.print("y = ");
+                    for (i=0;i<(eselon.cols-1);i++) {
+                        if (i == 0) {
+                            printWriter.printf("%f",solusi[i]);
+                        } else {
+                            printWriter.printf(" + %f X%d",solusi[i],i);
+                        }
+                    }
+                    printWriter.printf("\n\n");
+                    printWriter.printf("Hasil taksiran adalah %f\n",total);
+
+                    printWriter.close();
+                } catch (IOException e) {
+                    System.out.print("File tidak dapat disimpan pada folder 'test'. ");
+                }
+            }
 
             menuUtama();
             pilihmenu();     
