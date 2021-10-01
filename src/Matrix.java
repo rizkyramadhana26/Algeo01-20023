@@ -423,7 +423,7 @@ public class Matrix {
                     for (j = k + 1; j <= this.cols-1; j++){
                         this.matrix[i][j] -= this.matrix[k][j] * f;
                     }
-                    this.matrix[i][k] = 0;
+                    this.matrix[i][bukan0] = 0;
                     System.out.printf("Baris ke-%d dikurangi baris ke-%d dikali %f\n", (i+1), (k+1), f);
                     displayMatrix();
                 }
