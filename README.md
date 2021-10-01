@@ -5,8 +5,8 @@ Kelompok 21: BONEK
 * 13520094 - Saul Sayers
 * 13520151 - Rizky Ramadhana P. K.
 ## Menjalankan Program
-Pertama-tama masuk ke folder '/src' lalu compile file .java dengan command
-```javac *.java```
+Pertama-tama compile file .java dengan command
+```javac -d bin src/*.java```
 Hasil compile program ini ditampung pada folder '/bin'. Untuk menjalankan program, masuk ke folder '/bin' lalu jalankan command
 ```java Main```
 dimana Main adalah nama class utama di mana progam berada.
