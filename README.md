@@ -105,7 +105,7 @@ Baris ke-3 dibagi dengan -1.000000
 Di akhir proses eliminasi, akan dihasilkan sebuah matriks eselon baris. Lalu program akan melakukan substitusi balik dan menghasilkan solusi seperti berikut
 ```
 Penyelesaian persamaan tersebut adalah
-[2.0, 3.0, 5.0] 
+[2.0, 3.0000000000000004, 5.0] 
 ```
 ### Metode Eliminasi Gauss Jordan
 Pada metode eliminasi Gauss Jordan, langkah-langkah yang dilakukan mirip dengan metode eliminasi Gauss. Hanya saja, pada akhir proses eliminasi akan dihasilkan matriks eselon baris tereduksi. Berikut adalah simulasi proses eliminasi sebuah matriks *augmented* menuju sebuah matriks eselon baris tereduksi. (Studi kasus 1a)
