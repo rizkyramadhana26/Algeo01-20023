@@ -1,0 +1,4 @@
+Persamaan polinom:
+y = -3.507778 + -0.002625 X1 + 0.000799 X2 + 0.154155 X3
+
+Hasil taksiran adalah 0.938434
